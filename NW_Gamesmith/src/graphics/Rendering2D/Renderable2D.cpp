@@ -19,7 +19,7 @@ namespace gamesmith { namespace graphics {
 
 	void Renderable2D::setPosition(maths::vec2f pos)
 	{
-		m_Position = pos;
+		m_Transform.setPosition(pos);
 	}
 
 } }

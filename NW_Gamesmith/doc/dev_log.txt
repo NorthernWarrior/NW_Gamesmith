@@ -1,4 +1,4 @@
-// Days of Development: 1
+// Days of Development: 2
 
 // Official Begin:
 30.08.2015
@@ -7,11 +7,12 @@
 ???
 
 //////////////////////////////////////////////////////////////////
-// Day 0 (Preparations):
-- Compiled GLFW for 64bit
-- Simple Window class for GL context handling
-- InputManager-, Keyboard- and Mouse-classes for input handling
-- Math-Utils for Vectors, Matrices and other math stuffs
+// Day 2:
+- Added to GitHub
+- Added Color Class which (for now) converts a vec4 into an int
+- Improved BatchRenderer so that he will create another draw call 
+  when there ar too many sprites (up to 500K)
+- Added Transform2D class for Renderable2Ds
 
 //////////////////////////////////////////////////////////////////
 // Day 1:
@@ -20,3 +21,10 @@
 - Renderable2D and Sprite classes which wil lbe drawn by a Renderer2D
 - Renderer2D class as an abstraction for displaying 2D Objects
 - BatchRenderer2D class as an implementation of a fast renderer
+
+//////////////////////////////////////////////////////////////////
+// Day 0 (Preparations):
+- Compiled GLFW for 64bit
+- Simple Window class for GL context handling
+- InputManager-, Keyboard- and Mouse-classes for input handling
+- Math-Utils for Vectors, Matrices and other math stuffs

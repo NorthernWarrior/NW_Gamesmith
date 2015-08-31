@@ -4,10 +4,9 @@ namespace gamesmith { namespace graphics {
 
 	using namespace maths;
 
-	Sprite::Sprite(vec2f position, vec2f size, uint color)
+	Sprite::Sprite(vec2f position, vec2f scale, uint color)
 	{
-		m_Position = position;
-		m_Size = size;
+		m_Transform = Transform2D(position, 0, scale);
 		m_Color = color;
 	}
 

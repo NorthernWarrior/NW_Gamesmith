@@ -66,13 +66,20 @@ namespace gamesmith { namespace graphics {
 
 	void BatchRenderer2D::submit(const Renderable2D& renderable)
 	{
-		if (m_Buffer == nullptr || m_IndexCount >= RENDERER_INDICES_SIZE)
+		if (m_Buffer == nullptr) 
 			return;
+
+		if (m_IndexCount >= RENDERER_INDICES_SIZE)
+		{
+			unbind();
+			display();
+			bind();
+		}
 
 		using namespace maths;
 
-		const vec3f& position = vec3f(renderable.getPosition());
-		const vec2f& size = renderable.getSize();
+		const vec3f& position = vec3f(renderable.getTransform().getPosition());
+		const vec2f& size = renderable.getTransform().getScale();
 		const unsigned int color = renderable.getColor();
 		
 		m_Buffer->vertex = position;

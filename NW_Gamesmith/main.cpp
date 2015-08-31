@@ -5,6 +5,7 @@
 #include "src/graphics/Rendering2D/BatchRenderer2D.h"
 #include "src/graphics/Rendering2D/Sprite.h"
 #include "src/graphics/Buffer/IndexBuffer.h"
+#include "src/graphics/Color.h"
 
 using namespace gamesmith;
 using namespace graphics;
@@ -22,26 +23,17 @@ int main()
 	mat4 pr_matrix = mat4::orthographic(-2, 2, -1, 1, -1, 1);
 
 	Renderer2D* renderer = new BatchRenderer2D;
-	std::vector<Renderable2D> sprites;
 
+	std::vector<Renderable2D> sprites;
 	float hor = 200, vert = 100;
 	float w = 4 / hor, h = 2 / vert;
 	for (int y = 0; y < vert; ++y)
 	{
 		for (int x = 0; x < hor; ++x)
-		{
-			int r = rand() % 256;
-			int g = 0;
-			int b = 255;
-			int a = 255;
-			int col = ((r & 0xff) << 16)
-				| ((g & 0xff) << 8)
-				| (b & 0xff);
-
-			sprites.push_back(Sprite(vec2f(-2 + (x*w), -1 + (y*h)), vec2f(w - .005f, h - .005f), col));
-		}
+			sprites.push_back(Sprite(vec2f(-2 + (x*w), -1 + (y*h)), vec2f(w, h), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))))
 	}
 	std::cout << sprites.size() << " Sprites" << std::endl;
+	Sprite back(vec2f(-2, -1), vec2f(4, 2), 0);
 
 	double lastTime = glfwGetTime();
 	double currentTime = 0;
@@ -53,6 +45,7 @@ int main()
 		diffuse->SetUniformVec2("light_pos", vec2f((Mouse::GetPosition().x-window.getWidth()/2)/400, (-(Mouse::GetPosition().y-window.getHeight()/2) / 200)));
 
 		renderer->bind();
+		renderer->submit(back);
 		for (Renderable2D r : sprites)
 			renderer->submit(r);
 		renderer->unbind();

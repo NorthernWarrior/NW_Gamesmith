@@ -2,6 +2,7 @@
 
 #include "../../utils/typedefs.h"
 #include "../../maths/Maths.h"
+#include "Transform2D.h"
 
 namespace gamesmith { namespace graphics {
 
@@ -15,8 +16,7 @@ namespace gamesmith { namespace graphics {
 	{
 	protected:
 		uint m_Color;
-		maths::vec2f m_Position;
-		maths::vec2f m_Size;
+		Transform2D m_Transform;
 
 	public:
 		virtual ~Renderable2D() {}
@@ -26,12 +26,11 @@ namespace gamesmith { namespace graphics {
 		void setPosition(maths::vec2f pos);
 
 		inline uint getColor() const { return m_Color; }
-		inline maths::vec2f getPosition() const { return m_Position; }
-		inline maths::vec2f getSize() const { return m_Size; }
+		inline const Transform2D& getTransform() const { return m_Transform; }
 
 	protected:
-		Renderable2D() : 
-			m_Color(0xffffffff), m_Position(maths::vec2f()), m_Size(1.0f, 1.0f) {}
+		Renderable2D() :
+			m_Color(0xffffffff), m_Transform(maths::vec2f(), 0, maths::vec2f(1.f, 1.f)) { }
 	};
 
 } }
