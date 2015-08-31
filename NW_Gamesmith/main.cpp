@@ -30,7 +30,7 @@ int main()
 	for (int y = 0; y < vert; ++y)
 	{
 		for (int x = 0; x < hor; ++x)
-			sprites.push_back(Sprite(vec2f(-2 + (x*w), -1 + (y*h)), vec2f(w, h), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))))
+			sprites.push_back(Sprite(vec2f(-2 + (x*w), -1 + (y*h)), vec2f(w, h), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
 	}
 	std::cout << sprites.size() << " Sprites" << std::endl;
 	Sprite back(vec2f(-2, -1), vec2f(4, 2), 0);
