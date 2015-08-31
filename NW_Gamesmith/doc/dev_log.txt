@@ -1,0 +1,22 @@
+// Days of Development: 1
+
+// Official Begin:
+30.08.2015
+
+// Official End:
+???
+
+//////////////////////////////////////////////////////////////////
+// Day 0 (Preparations):
+- Compiled GLFW for 64bit
+- Simple Window class for GL context handling
+- InputManager-, Keyboard- and Mouse-classes for input handling
+- Math-Utils for Vectors, Matrices and other math stuffs
+
+//////////////////////////////////////////////////////////////////
+// Day 1:
+- Shader class for loading and handling vertex and fragment shaders
+- IndexBuffer class which creates and handles an IndexBuffer Object
+- Renderable2D and Sprite classes which wil lbe drawn by a Renderer2D
+- Renderer2D class as an abstraction for displaying 2D Objects
+- BatchRenderer2D class as an implementation of a fast renderer
