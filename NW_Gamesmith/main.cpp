@@ -1,7 +1,10 @@
+#include <vector>
+#include <time.h>
+
 #include "src/input/Input.h"
 #include "src/maths/Maths.h"
 #include "src/utils/File.h"
-#include "src/graphics/Shader.h"
+#include "src/graphics/Shader/ShaderManager.h"
 #include "src/graphics/Rendering2D/BatchRenderer2D.h"
 #include "src/graphics/Rendering2D/Sprite.h"
 #include "src/graphics/Buffer/IndexBuffer.h"
@@ -12,14 +15,14 @@ using namespace graphics;
 using namespace maths;
 using namespace input;
 
-#include <vector>
-
 int main()
 {
+	srand(time(nullptr));
+
 	Window window;
 	window.create("Gamesmith", 800, 400);
 
-	Shader* diffuse = Shader::create("data/shader/diffuse.vert", "data/shader/diffuse.frag");
+	Shader* diffuse = ShaderManager::loadFromFile("diffuse", "data/shader/diffuse.vert", "data/shader/diffuse.frag");
 	mat4 pr_matrix = mat4::orthographic(-(window.getWidth() / 2.f), (window.getWidth() / 2), - (window.getHeight() / 2.f), (window.getHeight() / 2), -1, 1);
 
 	Renderer2D* renderer = new BatchRenderer2D;

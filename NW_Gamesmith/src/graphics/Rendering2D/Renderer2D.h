@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Shader.h"
+#include "../Shader/Shader.h"
 #include "Renderable2D.h"
 
 namespace gamesmith { namespace graphics {

@@ -163,7 +163,8 @@
     <ClCompile Include="src\graphics\Rendering2D\BatchRenderer2D.cpp" />
     <ClCompile Include="src\graphics\Rendering2D\Renderable2D.cpp" />
     <ClCompile Include="src\graphics\Rendering2D\Sprite.cpp" />
-    <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="src\graphics\Shader\Shader.cpp" />
+    <ClCompile Include="src\graphics\Shader\ShaderManager.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\input\InputManager.cpp" />
     <ClCompile Include="src\input\Keyboard.cpp" />
@@ -177,7 +178,9 @@
     <ClInclude Include="src\graphics\Rendering2D\Renderer2D.h" />
     <ClInclude Include="src\graphics\Rendering2D\Sprite.h" />
     <ClInclude Include="src\graphics\Rendering2D\Transform2D.h" />
-    <ClInclude Include="src\graphics\Shader.h" />
+    <ClInclude Include="src\graphics\Shader\DefaultShader.h" />
+    <ClInclude Include="src\graphics\Shader\Shader.h" />
+    <ClInclude Include="src\graphics\Shader\ShaderManager.h" />
     <ClInclude Include="src\maths\Maths.h" />
     <ClInclude Include="src\utils\File.h" />
     <ClInclude Include="src\graphics\Window.h" />

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../utils/File.h"
+#include "../../utils/File.h"
 
 namespace gamesmith { namespace graphics {
 	
@@ -29,7 +29,10 @@ namespace gamesmith { namespace graphics {
 
 	void Shader::reload()
 	{
-		Shader* newShader = create(m_VertFile, m_FragFile);
+		if (m_Vertex.length() == 0 || m_Fragment.length() == 0)
+			return;
+
+		Shader* newShader = (m_SourceIsString ? createFromString(m_Vertex, m_Fragment) : create(m_Vertex, m_Fragment));
 		if (newShader == nullptr || newShader->m_ShaderID == 0)
 		{
 			// TODO: Log!
@@ -122,7 +125,44 @@ namespace gamesmith { namespace graphics {
 		glDeleteShader(vertID);
 		glDeleteShader(fragID);
 
-		return new Shader(program, vertFile, fragFile);
+		return new Shader(program, vertFile, fragFile, false);
+	}
+
+	Shader* Shader::createFromString(const std::string & vertString, const std::string & fragString)
+	{
+		uint program = glCreateProgram();
+
+		const char* vert = vertString.c_str();
+		uint vertID = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertID, 1, &vert, nullptr);
+		glCompileShader(vertID);
+		if (!checkShader(vertID, "Unknown Source"))
+		{
+			glDeleteProgram(program);
+			return nullptr;
+		}
+
+		const char* frag = fragString.c_str();
+		uint fragID = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragID, 1, &frag, nullptr);
+		glCompileShader(fragID);
+		if (!checkShader(fragID, "Unknown Source"))
+		{
+			glDeleteShader(vertID);
+			glDeleteProgram(program);
+			return nullptr;
+		}
+
+		glAttachShader(program, vertID);
+		glAttachShader(program, fragID);
+
+		glLinkProgram(program);
+		glValidateProgram(program);
+
+		glDeleteShader(vertID);
+		glDeleteShader(fragID);
+
+		return new Shader(program, vertString, fragString, true);
 	}
 
 	bool Shader::checkShader(uint shaderID, const std::string& filename)

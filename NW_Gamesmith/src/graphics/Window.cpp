@@ -1,6 +1,7 @@
 #include "Window.h"
 
 #include "../input/Input.h"
+#include "Shader/ShaderManager.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -24,6 +25,8 @@ namespace gamesmith { namespace graphics {
 
 	Window::~Window()
 	{
+		ShaderManager::clear();
+
 		if (m_GlfwHandle != nullptr)
 			glfwDestroyWindow(m_GlfwHandle);
 
@@ -67,6 +70,8 @@ namespace gamesmith { namespace graphics {
 
 		// TODO: Log!
 		std::cout << "[Window] OpenGL: " << glGetString(GL_VERSION) << std::endl;
+
+		ShaderManager::loadDefault();
 		return true;
 	}
 
@@ -93,17 +98,6 @@ namespace gamesmith { namespace graphics {
 	{
 		m_Vsync = enabled;
 		glfwSwapInterval(m_Vsync);
-//#ifndef _WIN32
-//		glfwSwapInterval(m_Vsync);
-//#else
-//		// Turn on vertical screen sync under Windows.
-//		// (I.e. it uses the WGL_EXT_swap_control extension)
-//		typedef BOOL(WINAPI *PFNWGLSWAPINTERVALEXTPROC)(int interval);
-//		PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = NULL;
-//		wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
-//		if (wglSwapIntervalEXT)
-//			wglSwapIntervalEXT(m_Vsync);
-//#endif
 	}
 
 	void Window::glfw_Init()
