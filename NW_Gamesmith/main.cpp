@@ -25,12 +25,12 @@ int main()
 	Renderer2D* renderer = new BatchRenderer2D;
 
 	std::vector<Renderable2D> sprites;
-	float hor = 200, vert = 100;
+	float hor = 20, vert = 10;
 	float w = 4 / hor, h = 2 / vert;
 	for (int y = 0; y < vert; ++y)
 	{
 		for (int x = 0; x < hor; ++x)
-			sprites.push_back(Sprite(vec2f(-2 + (x*w), -1 + (y*h)), vec2f(w, h), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
+			sprites.push_back(Sprite(vec2f(-2 + (x*w), -1 + (y*h)), vec2f(w-(w*0.1), h-(h*0.1)), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
 	}
 	std::cout << sprites.size() << " Sprites" << std::endl;
 	Sprite back(vec2f(-2, -1), vec2f(4, 2), 0);
@@ -42,7 +42,7 @@ int main()
 	{
 		diffuse->bind();
 		diffuse->SetUniformMat4("pr_matrix", pr_matrix);
-		diffuse->SetUniformVec2("light_pos", vec2f((Mouse::GetPosition().x-window.getWidth()/2)/400, (-(Mouse::GetPosition().y-window.getHeight()/2) / 200)));
+		diffuse->SetUniformVec2("light_pos", vec2f((Mouse::GetPosition().x - window.getWidth() / 2) / (window.getWidth() / 2), -(Mouse::GetPosition().y - window.getHeight() / 2) / (window.getHeight() / 2)));
 
 		renderer->bind();
 		renderer->submit(back);

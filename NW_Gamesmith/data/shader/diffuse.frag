@@ -12,6 +12,7 @@ layout(location = 0) out vec4 color;
 
 void main()
 {
-	float intensity = 1.0 / length(vd_in.position.xy - light_pos);
+	float intensity = 0.25 / length(vd_in.position.xy - light_pos);
 	color = vd_in.color * intensity;
+	color.a = 1.0f;
 }
