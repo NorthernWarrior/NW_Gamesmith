@@ -20,6 +20,6 @@ void main()
 {
 	gl_Position = pr_matrix * vw_matrix * ml_matrix * position;
 
-	vd_out.position = pr_matrix * position;
+	vd_out.position = ml_matrix * position;
 	vd_out.color = color;
 }
