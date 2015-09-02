@@ -11,7 +11,7 @@ namespace gamesmith { namespace graphics {
 		virtual ~Renderer2D() {}
 
 		virtual void bind() {}
-		virtual void submit(const Renderable2D& renderable) = 0;
+		virtual void submit(const Renderable2D* renderable) = 0;
 		virtual void unbind() {}
 		virtual void display() = 0;
 

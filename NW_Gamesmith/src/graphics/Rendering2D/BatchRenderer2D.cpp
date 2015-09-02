@@ -64,9 +64,9 @@ namespace gamesmith { namespace graphics {
 		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	}
 
-	void BatchRenderer2D::submit(const Renderable2D& renderable)
+	void BatchRenderer2D::submit(const Renderable2D* renderable)
 	{
-		if (m_Buffer == nullptr) 
+		if (m_Buffer == nullptr || renderable == nullptr)
 			return;
 
 		if (m_IndexCount >= RENDERER_INDICES_SIZE)
@@ -78,9 +78,9 @@ namespace gamesmith { namespace graphics {
 
 		using namespace maths;
 
-		const vec3f& position = vec3f(renderable.getTransform().getPosition());
-		const vec2f& size = renderable.getTransform().getScale();
-		const unsigned int color = renderable.getColor();
+		const vec3f& position = vec3f(renderable->getTransform().getPosition());
+		const vec2f& size = renderable->getTransform().getScale();
+		const unsigned int color = renderable->getColor();
 		
 		m_Buffer->vertex = position;
 		m_Buffer->color = color;

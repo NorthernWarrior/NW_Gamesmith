@@ -1,10 +1,18 @@
-// Days of Development: 2
+// Days of Development: 3
 
 // Official Begin:
 30.08.2015
 
 // Official End:
 ???
+
+//////////////////////////////////////////////////////////////////
+// Day 3:
+- Added ShaderManager which allows you to get a custom shader by name 
+  or a default shader by Shader::Default-ID
+- Added Message class which can show a MessageBox (only for Windows right now!)
+- Added RenderLayers which have their own renderer, shader and 
+  collection of renderables
 
 //////////////////////////////////////////////////////////////////
 // Day 2:

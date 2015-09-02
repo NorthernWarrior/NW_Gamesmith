@@ -16,8 +16,8 @@ namespace gamesmith { namespace graphics {
 		static Shader* get(Shader::Default shaderID);
 		static Shader* get(const std::string& name);
 
-		static Shader* loadFromFile(const std::string& name, const std::string& vertFile, const std::string& fragFile);
-		static Shader* loadFromString(const std::string& name, const std::string& vertString, const std::string& fragString);
+		static Shader* addFromFile(const std::string& name, const std::string& vertFile, const std::string& fragFile);
+		static Shader* addFromString(const std::string& name, const std::string& vertString, const std::string& fragString);
 
 		static void loadDefault();
 		static void clear();

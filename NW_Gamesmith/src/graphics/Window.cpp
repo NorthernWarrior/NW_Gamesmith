@@ -3,10 +3,6 @@
 #include "../input/Input.h"
 #include "Shader/ShaderManager.h"
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif
-
 namespace gamesmith { namespace graphics {
 
 	Window::Window() :

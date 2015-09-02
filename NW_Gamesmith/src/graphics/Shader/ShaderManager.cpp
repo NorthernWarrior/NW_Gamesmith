@@ -32,7 +32,7 @@ namespace gamesmith { namespace graphics {
 		return result->second;
 	}
 
-	Shader* ShaderManager::loadFromFile(const std::string & name, const std::string & vertFile, const std::string & fragFile)
+	Shader* ShaderManager::addFromFile(const std::string & name, const std::string & vertFile, const std::string & fragFile)
 	{
 		if (m_CustomShader.find(name) != m_CustomShader.end())
 		{
@@ -50,9 +50,22 @@ namespace gamesmith { namespace graphics {
 		return s;
 	}
 
-	Shader* ShaderManager::loadFromString(const std::string & name, const std::string & vertString, const std::string & fragString)
+	Shader* ShaderManager::addFromString(const std::string & name, const std::string & vertString, const std::string & fragString)
 	{
-		return nullptr;
+		if (m_CustomShader.find(name) != m_CustomShader.end())
+		{
+			// TODO: Log!
+			std::cout << "[ShaderManager] A shader with the name \"" << name << "\" already exists!" << std::endl;
+			return m_CustomShader[name];
+		}
+
+		Shader* s = Shader::createFromString(vertString, fragString);
+		if (s == nullptr)
+			return nullptr;
+
+		m_CustomShader[name] = s;
+
+		return s;
 	}
 
 	void ShaderManager::loadDefault()

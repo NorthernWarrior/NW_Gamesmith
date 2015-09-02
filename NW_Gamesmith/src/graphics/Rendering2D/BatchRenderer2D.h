@@ -27,7 +27,7 @@ namespace gamesmith { namespace graphics {
 		~BatchRenderer2D();
 
 		void bind() override;
-		void submit(const Renderable2D& renderable) override;
+		void submit(const Renderable2D* renderable) override;
 		void unbind();
 		void display() override;
 
