@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+#include "Renderable2D.h"
+
 namespace gamesmith { namespace graphics {
 
 	BatchRenderer2D::BatchRenderer2D() :
@@ -78,23 +80,23 @@ namespace gamesmith { namespace graphics {
 
 		using namespace maths;
 
-		const vec3f& position = vec3f(renderable->getTransform().getPosition());
+		const vec3f& position = vec3f();// = vec3f(renderable->getTransform().getPosition());
 		const vec2f& size = renderable->getTransform().getScale();
 		const unsigned int color = renderable->getColor();
 		
-		m_Buffer->vertex = position;
+		m_Buffer->vertex = (*m_TransformBack) * position;
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = vec3f(position.x + size.x, position.y, position.z);
+		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x + size.x, position.y, position.z);
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = vec3f(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x + size.x, position.y + size.y, position.z);
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = vec3f(position.x, position.y + size.y, position.z);
+		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x, position.y + size.y, position.z);
 		m_Buffer->color = color;
 		m_Buffer++;
 

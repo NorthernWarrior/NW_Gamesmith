@@ -13,6 +13,9 @@
 - Added Message class which can show a MessageBox (only for Windows right now!)
 - Added RenderLayers which have their own renderer, shader and 
   collection of renderables
+- Added SpriteGroup class as a container for multiple sprites
+- Added a TranformStack to the renderer; This is useful for groups of sprites
+  where the child elements should be positioned relative to their parents
 
 //////////////////////////////////////////////////////////////////
 // Day 2:

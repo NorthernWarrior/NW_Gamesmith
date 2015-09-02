@@ -18,6 +18,7 @@ namespace gamesmith { namespace graphics {
 		inline const maths::vec2f& getPosition() const { return m_Position; }
 		inline float getRotation() const { return m_Rotation; }
 		inline const maths::vec2f& getScale() const { return m_Scale; }
+		inline const maths::mat4 getMatrix() const { return maths::mat4::identity().translate(m_Position); }
 
 		void setPosition(const maths::vec2f& position) { m_Position = position; }
 		void setRotation(float rotation) { m_Rotation = rotation; }

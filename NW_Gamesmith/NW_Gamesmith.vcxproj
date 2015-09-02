@@ -163,6 +163,7 @@
     <ClCompile Include="src\graphics\Rendering2D\BatchRenderer2D.cpp" />
     <ClCompile Include="src\graphics\Rendering2D\Renderable2D.cpp" />
     <ClCompile Include="src\graphics\Rendering2D\Sprite.cpp" />
+    <ClCompile Include="src\graphics\Rendering2D\SpriteGroup.cpp" />
     <ClCompile Include="src\graphics\RenderLayer\RenderLayer2D.cpp" />
     <ClCompile Include="src\graphics\RenderLayer\TileLayer.cpp" />
     <ClCompile Include="src\graphics\Shader\Shader.cpp" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="src\graphics\Buffer\IndexBuffer.h" />
     <ClInclude Include="src\graphics\Color.h" />
+    <ClInclude Include="src\graphics\Rendering2D\SpriteGroup.h" />
     <ClInclude Include="src\graphics\RenderLayer\RenderLayer2D.h" />
     <ClInclude Include="src\graphics\Rendering2D\BatchRenderer2D.h" />
     <ClInclude Include="src\graphics\Rendering2D\Renderable2D.h" />

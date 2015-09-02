@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Rendering2D/Renderer2D.h"
+#include "../Rendering2D/Renderable2D.h"
 
 namespace gamesmith { namespace graphics {
 

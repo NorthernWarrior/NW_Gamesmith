@@ -24,7 +24,7 @@ namespace gamesmith { namespace graphics {
 		m_Shader->bind();
 		m_Renderer->bind();
 		for (Renderable2D* r : m_Renderables)
-			m_Renderer->submit(r);
+			r->onSubmit(m_Renderer);
 		m_Renderer->unbind();
 
 		m_Renderer->display();

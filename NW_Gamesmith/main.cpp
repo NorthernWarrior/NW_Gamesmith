@@ -8,6 +8,7 @@
 #include "src/graphics/Shader/ShaderManager.h"
 #include "src/graphics/RenderLayer/TileLayer.h"
 #include "src/graphics/Rendering2D/BatchRenderer2D.h"
+#include "src/graphics/Rendering2D/SpriteGroup.h"
 #include "src/graphics/Rendering2D/Sprite.h"
 #include "src/graphics/Buffer/IndexBuffer.h"
 #include "src/graphics/Color.h"
@@ -37,7 +38,15 @@ int main()
 		for (int x = 0; x < hor; ++x)
 			layer.add(new Sprite(vec2f(-(window.getWidth() / 2.f) + (x*w) + (w*0.025), -(window.getHeight() / 2.f) + (y*h) + (h*0.025)), vec2f(w-(w*0.05), h-(h*0.05)), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
 	}
-	auto player = layer.add(new Sprite(vec2f(-50, -50), vec2f(100, 100), 0xff333333));
+	auto spawn = (SpriteGroup*)layer.add(new SpriteGroup(vec2f(-100, -50)));
+	spawn->add(new Sprite(vec2f(-75, -75), vec2f(150, 150), 0xfff000aa));
+	auto player = (SpriteGroup*)spawn->add(new SpriteGroup(vec2f(0, 0)));
+	player->add(new Sprite(vec2f(-50, -50), vec2f(100, 100), 0xff333333));
+	player->add(new Sprite(vec2f(-25, 15), vec2f(10, 10), 0xffaaaaaa));
+	player->add(new Sprite(vec2f(15, 15), vec2f(10, 10), 0xffaaaaaa));
+	player->add(new Sprite(vec2f(-25, -30), vec2f(50, 10), 0xffaaaaaa));
+	player->add(new Sprite(vec2f(-35, -20), vec2f(10, 10), 0xffaaaaaa));
+	player->add(new Sprite(vec2f(25, -20), vec2f(10, 10), 0xffaaaaaa));
 
 	double lastTime = glfwGetTime();
 	double currentTime = 0;
@@ -86,7 +95,7 @@ int main()
 
 
 
-#if 0 // Empty namespace
+#if 0 // Empty namespace for copying - just because im lazy
 
 namespace gamesmith { namespace graphics {
 

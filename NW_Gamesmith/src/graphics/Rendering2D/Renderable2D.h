@@ -4,8 +4,10 @@
 #include "../../maths/Maths.h"
 #include "Transform2D.h"
 
-namespace gamesmith { namespace graphics {
+#include "Renderer2D.h"
 
+namespace gamesmith { namespace graphics {
+	
 	struct VertexData
 	{
 		maths::vec3f vertex;
@@ -20,6 +22,15 @@ namespace gamesmith { namespace graphics {
 
 	public:
 		virtual ~Renderable2D() {}
+
+		virtual void onSubmit(Renderer2D* renderer) const
+		{
+			renderer->pushTransform(m_Transform.getMatrix());
+
+			renderer->submit(this);
+
+			renderer->popTransform();
+		}
 
 		void setColor(uint color);
 		void setColor(const maths::vec4f& color);
