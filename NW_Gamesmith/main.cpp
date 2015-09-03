@@ -8,7 +8,6 @@
 #include "src/graphics/Shader/ShaderManager.h"
 #include "src/graphics/RenderLayer/TileLayer.h"
 #include "src/graphics/Rendering2D/BatchRenderer2D.h"
-#include "src/graphics/Rendering2D/SpriteGroup.h"
 #include "src/graphics/Rendering2D/Sprite.h"
 #include "src/graphics/Buffer/IndexBuffer.h"
 #include "src/graphics/Color.h"
@@ -23,6 +22,7 @@ int main()
 	srand(time(nullptr));
 
 	Window window;
+	window.setSamples(8);
 	window.create("Gamesmith", 800, 400);
 
 	Shader* diffuse = ShaderManager::addFromFile("diffuse", "data/shader/diffuse.vert", "data/shader/diffuse.frag");
@@ -30,35 +30,47 @@ int main()
 
 	TileLayer layer(new BatchRenderer2D, diffuse);
 
-	layer.add(new Sprite(vec2f(-(window.getWidth() / 2.f), -(window.getHeight() / 2.f)), vec2f(window.getWidth(), window.getHeight()), 0));
+	layer.add(new Sprite(vec2f(0, 0), vec2f(window.getWidth(), window.getHeight()), 0));
 	float hor = 10, vert = 5;
 	float w = window.getWidth() / hor, h = window.getHeight() / vert;
 	for (int y = 0; y < vert; ++y)
 	{
 		for (int x = 0; x < hor; ++x)
-			layer.add(new Sprite(vec2f(-(window.getWidth() / 2.f) + (x*w) + (w*0.025), -(window.getHeight() / 2.f) + (y*h) + (h*0.025)), vec2f(w-(w*0.05), h-(h*0.05)), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
+			layer.add(new Sprite(vec2f(-(window.getWidth() / 2.f) + w/2 + (x*w) + ((w/2)*0.025), -(window.getHeight() / 2.f) +h/2 + (y*h) + ((h/2)*0.025)), vec2f(w-(w*0.05), h-(h*0.05)), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
 	}
-	auto spawn = (SpriteGroup*)layer.add(new SpriteGroup(vec2f(-100, -50)));
-	spawn->add(new Sprite(vec2f(-75, -75), vec2f(150, 150), 0xfff000aa));
-	auto player = (SpriteGroup*)spawn->add(new SpriteGroup(vec2f(0, 0)));
-	player->add(new Sprite(vec2f(-50, -50), vec2f(100, 100), 0xff333333));
-	player->add(new Sprite(vec2f(-25, 15), vec2f(10, 10), 0xffaaaaaa));
-	player->add(new Sprite(vec2f(15, 15), vec2f(10, 10), 0xffaaaaaa));
-	player->add(new Sprite(vec2f(-25, -30), vec2f(50, 10), 0xffaaaaaa));
-	player->add(new Sprite(vec2f(-35, -20), vec2f(10, 10), 0xffaaaaaa));
-	player->add(new Sprite(vec2f(25, -20), vec2f(10, 10), 0xffaaaaaa));
+	Sprite* player = (Sprite*)layer.add(new Sprite(vec2f(), vec2f(100, 100), 0xff333333));
+	Sprite* eye_l = new Sprite(vec2f(-25, 20), vec2f(10, 20), 0xffaaaaaa);
+	eye_l->getTransform()->setParent(player->getTransform());
+	Sprite* eye_r = new Sprite(vec2f(25, 20), vec2f(10, 20), 0xffaaaaaa);
+	eye_r->getTransform()->setParent(player->getTransform());
+
+	Sprite* mouth = new Sprite(vec2f(0, -25), vec2f(50, 10), 0xffaaaaaa);
+	mouth->getTransform()->setParent(player->getTransform());
+	Sprite* mouth_l = new Sprite(vec2f(-25, 10), vec2f(10, 10), 0xffaaaaaa);
+	mouth_l->getTransform()->setParent(mouth->getTransform());
+	Sprite* mouth_r = new Sprite(vec2f(25, 10), vec2f(10, 10), 0xffaaaaaa);
+	mouth_r->getTransform()->setParent(mouth->getTransform());
+	Sprite* tongue = new Sprite(vec2f(17, -5), vec2f(15, 25), Color::fromRGBA(255, 0, 0, 255));
+	tongue->getTransform()->setParent(mouth->getTransform());
+	tongue->getTransform()->setRotation(20);
 
 	double lastTime = glfwGetTime();
 	double currentTime = 0;
+	double begin = 0;
+	double dt = 0;
 	int frameCnt = 0;
 	while (window.run())
 	{
+		begin = glfwGetTime();
+
 		diffuse->bind();
 		pr_matrix = mat4::orthographic(-(window.getWidth() / 2.f), (window.getWidth() / 2), -(window.getHeight() / 2.f), (window.getHeight() / 2), -1, 1);
 		diffuse->SetUniformMat4("pr_matrix", pr_matrix);
-		diffuse->SetUniformVec2("light_pos", vec2f((Mouse::GetPosition().x - window.getWidth() / 2), -(Mouse::GetPosition().y - window.getHeight() / 2)));
+		diffuse->SetUniformVec2("light_pos", player->getTransform()->getPosition());
 
 		layer.render();
+
+		dt = glfwGetTime() - begin;
 
 		++frameCnt;
 		currentTime = glfwGetTime();
@@ -69,23 +81,29 @@ int main()
 			lastTime += 1.0;
 		}
 
-
+		float speed = 300 * dt;
 
 		if (Keyboard::GetKey(Keyboard::Key::W))
-			player->setPosition(player->getTransform().getPosition() + vec2f(0, 0.25));
+			player->setPosition(player->getTransform()->getPosition() + vec2f(0, speed));
 		else if (Keyboard::GetKey(Keyboard::Key::S))
-			player->setPosition(player->getTransform().getPosition() + vec2f(0, -0.25));
+			player->setPosition(player->getTransform()->getPosition() + vec2f(0, -speed));
 
 		if (Keyboard::GetKey(Keyboard::Key::A))
-			player->setPosition(player->getTransform().getPosition() + vec2f(-0.25, 0));
+			player->setPosition(player->getTransform()->getPosition() + vec2f(-speed, 0));
 		else if (Keyboard::GetKey(Keyboard::Key::D))
-			player->setPosition(player->getTransform().getPosition() + vec2f(0.25, 0));
+			player->setPosition(player->getTransform()->getPosition() + vec2f(speed, 0));
+
+		if (Keyboard::GetKey(Keyboard::Key::Q))
+			player->getTransform()->setRotation(player->getTransform()->getRotation() + (speed/2));
+		else if (Keyboard::GetKey(Keyboard::Key::E))
+			player->getTransform()->setRotation(player->getTransform()->getRotation() - (speed/2));
 
 		if (Keyboard::GetKeyUp(Keyboard::F5))
 		{
 			diffuse->reload();
 			diffuse->bind();
 		}
+
 	}
 
 	return EXIT_SUCCESS;

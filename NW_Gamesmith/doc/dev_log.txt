@@ -1,10 +1,15 @@
-// Days of Development: 3
+// Days of Development: 4
 
 // Official Begin:
 30.08.2015
 
 // Official End:
 ???
+
+//////////////////////////////////////////////////////////////////
+// Day 4:
+- Replaced SpriteGroups by the ability to give Transform objects child Transforms
+- Fixed a bug with matrix rotation
 
 //////////////////////////////////////////////////////////////////
 // Day 3:

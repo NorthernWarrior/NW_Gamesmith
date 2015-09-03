@@ -264,7 +264,7 @@ namespace gamesmith { namespace maths {
 		}
 		static mat4 rotate(const mat4& original, float angle_degree, const vec3f& axis)
 		{
-			mat4 result(1.0f);
+			mat4 result = original;
 
 			float r = toRadians(angle_degree);
 			float c = cos(r);

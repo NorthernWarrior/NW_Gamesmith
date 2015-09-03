@@ -13,7 +13,7 @@ layout(location = 0) out vec4 color;
 void main()
 {
 	float distance = length(light_pos - vd_in.position.xy);
-	float brightness = 40 / distance;
+	float brightness = 150 / distance;
 	brightness = clamp(brightness, 0.0, 2.0);
 
 	color = vd_in.color * brightness;

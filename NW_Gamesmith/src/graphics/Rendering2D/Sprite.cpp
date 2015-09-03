@@ -6,7 +6,7 @@ namespace gamesmith { namespace graphics {
 
 	Sprite::Sprite(vec2f position, vec2f scale, uint color)
 	{
-		m_Transform = Transform2D(position, 0, scale);
+		m_Transform = Transform2D(position, 0, scale, this);
 		m_Color = color;
 	}
 
