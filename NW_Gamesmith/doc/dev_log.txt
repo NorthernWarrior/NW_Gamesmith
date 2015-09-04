@@ -10,6 +10,8 @@
 // Day 4:
 - Replaced SpriteGroups by the ability to give Transform objects child Transforms
 - Fixed a bug with matrix rotation
+- Added BoundingBox2D for collision detection and defining the boundaries of a sprite
+- Added function to detach a child from a transform
 
 //////////////////////////////////////////////////////////////////
 // Day 3:

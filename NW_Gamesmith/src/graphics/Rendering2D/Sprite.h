@@ -8,7 +8,8 @@ namespace gamesmith { namespace graphics {
 	{
 	public:
 		Sprite() = default;
-		Sprite(maths::vec2f position, maths::vec2f scale, uint color);
+		Sprite(maths::vec2f position, maths::vec2f size, uint color);
+		Sprite(const maths::BoundingBox2D& bounds, uint color);
 	};
 
 } }

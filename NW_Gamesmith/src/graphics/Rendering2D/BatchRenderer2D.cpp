@@ -80,7 +80,7 @@ namespace gamesmith { namespace graphics {
 
 		using namespace maths;
 
-		const vec2f& size = renderable->getTransform()->getScale();
+		const vec2f& size = renderable->getSize();
 		const vec3f& position = vec3f(-size.x/2, -size.y/2, 0);		// = vec3f(renderable->getTransform().getPosition());
 		const unsigned int color = renderable->getColor();
 		

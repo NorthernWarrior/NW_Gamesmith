@@ -19,6 +19,7 @@ namespace gamesmith { namespace graphics {
 	protected:
 		uint m_Color;
 		Transform2D m_Transform;
+		maths::vec2f m_Size;
 
 	public:
 		virtual ~Renderable2D() {}
@@ -45,10 +46,11 @@ namespace gamesmith { namespace graphics {
 
 		inline uint getColor() const { return m_Color; }
 		inline Transform2D* getTransform() { return &m_Transform; }
+		inline const maths::vec2f getSize() const { return m_Size; }
 
 	protected:
 		Renderable2D() :
-			m_Color(0xffffffff), m_Transform(maths::vec2f(), 0, maths::vec2f(1.f, 1.f), this) { }
+			m_Color(0xffffffff), m_Transform(maths::vec2f(), 0, maths::vec2f(1.f, 1.f), this), m_Size(maths::vec2f(0, 0)) { }
 	};
 
 } }

@@ -185,6 +185,7 @@
     <ClInclude Include="src\graphics\Shader\DefaultShader.h" />
     <ClInclude Include="src\graphics\Shader\Shader.h" />
     <ClInclude Include="src\graphics\Shader\ShaderManager.h" />
+    <ClInclude Include="src\maths\BoundingBox2D.h" />
     <ClInclude Include="src\maths\Maths.h" />
     <ClInclude Include="src\utils\File.h" />
     <ClInclude Include="src\graphics\Window.h" />

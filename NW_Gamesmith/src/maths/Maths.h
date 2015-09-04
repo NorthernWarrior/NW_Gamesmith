@@ -8,5 +8,8 @@
 // Matrix
 #include "mat4.h"
 
+// Bounding Boxes
+#include "BoundingBox2D.h"
+
 // Helper
 #include "math_helper.h"

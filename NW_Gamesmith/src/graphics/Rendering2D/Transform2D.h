@@ -36,8 +36,9 @@ namespace gamesmith { namespace graphics {
 		inline const maths::vec2f& getScale() const { return m_Scale; }
 		inline const maths::mat4 getMatrix() const 
 		{
-			//return maths::mat4::identity().translate(m_Position); 
-			maths::mat4 mat = maths::mat4::translate(maths::mat4::identity(), m_Position);
+			// TODO: Scale doesn't work properly - also...rotation kills scale value
+			maths::mat4 mat = maths::mat4::scale(maths::mat4::identity(), maths::vec3f(m_Scale.x, m_Scale.y, 1));
+			mat = maths::mat4::translate(mat, m_Position);
 			mat = maths::mat4::rotate(mat, m_Rotation, maths::vec3f(0, 0, 1));
 			return mat;
 		}
@@ -45,7 +46,7 @@ namespace gamesmith { namespace graphics {
 		void setParent(Transform2D* parent)
 		{
 			if (m_Parent != nullptr)
-				;	// TODO: Detach from old Parent
+				m_Parent->detachChild(this);
 
 			m_Parent = parent;
 
@@ -57,6 +58,21 @@ namespace gamesmith { namespace graphics {
 		void setPosition(const maths::vec2f& position) { m_Position = position; }
 		void setRotation(float rotation) { m_Rotation = rotation; }
 		void setScale(const maths::vec2f& scale) { m_Scale = scale; }
+
+		void detachChild(Transform2D* child)
+		{
+			if (m_Children.empty())
+				return;
+
+			for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
+			{
+				if ((*it) == child)
+				{
+					m_Children.erase(it);
+					return;
+				}
+			}
+		}
 	};
 
 } }
