@@ -24,9 +24,11 @@ namespace gamesmith { namespace graphics {
 		glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
 
 		glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
+		glEnableVertexAttribArray(SHADER_UV_INDEX);
 		glEnableVertexAttribArray(SHADER_COLOR_INDEX);
 
 		glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
+		glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, uv)));
 		glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, color)));
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -79,24 +81,29 @@ namespace gamesmith { namespace graphics {
 		}
 
 		using namespace maths;
-
-		const vec2f& size = renderable->getSize();
-		const vec3f& position = vec3f(-size.x/2, -size.y/2, 0);		// = vec3f(renderable->getTransform().getPosition());
+		
+		BoundingBox2D local = renderable->getLocalBounds();
+		const vec2f& size = local.getSize();
+		const vec3f& position = local.getTopLeft();
 		const unsigned int color = renderable->getColor();
 		
 		m_Buffer->vertex = (*m_TransformBack) * position;
+		m_Buffer->uv = vec2f(0, 1);
 		m_Buffer->color = color;
 		m_Buffer++;
 
 		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x + size.x, position.y, position.z);
+		m_Buffer->uv = vec2f(1, 1);
 		m_Buffer->color = color;
 		m_Buffer++;
 
 		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->uv = vec2f(1, 0);
 		m_Buffer->color = color;
 		m_Buffer++;
 
 		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x, position.y + size.y, position.z);
+		m_Buffer->uv = vec2f(0, 0);
 		m_Buffer->color = color;
 		m_Buffer++;
 

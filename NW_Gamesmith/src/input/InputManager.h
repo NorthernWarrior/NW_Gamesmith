@@ -15,12 +15,12 @@ namespace gamesmith { namespace input {
 		friend class Mouse;
 
 	public:
-		static bool GetButton(const std::string& name);
-		static bool GetButtonDown(const std::string& name);
-		static bool GetButtonUp(const std::string& name);
+		static bool getButton(const std::string& name);
+		static bool getButtonDown(const std::string& name);
+		static bool getButtonUp(const std::string& name);
 
-		static void RegisterButton(const std::string& name, int key);
-		static void RegisterMouseButton(const std::string& name, int mouseButton);
+		static void registerButton(const std::string& name, int key);
+		static void registerMouseButton(const std::string& name, int mouseButton);
 
 	private:
 		enum KeyState

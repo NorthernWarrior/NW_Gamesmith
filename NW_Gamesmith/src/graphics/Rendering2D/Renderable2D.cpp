@@ -22,4 +22,9 @@ namespace gamesmith { namespace graphics {
 		m_Transform.setPosition(pos);
 	}
 
+	void Renderable2D::setSize(maths::vec2f size)
+	{
+		m_Size = size;
+	}
+
 } }

@@ -4,17 +4,17 @@ namespace gamesmith { namespace input {
 
 	Keyboard::KeyStateMap Keyboard::keyStates;
 
-	bool Keyboard::GetKey(int key)
+	bool Keyboard::getKey(int key)
 	{		
 		return (glfwGetKey(glfwGetCurrentContext(), key) == GLFW_PRESS);
 	}
 
-	bool Keyboard::GetKeyDown(int key)
+	bool Keyboard::getKeyDown(int key)
 	{
 		return (keyStates[(Keyboard::Key)key] == InputManager::KeyState::StateDown);
 	}
 
-	bool Keyboard::GetKeyUp(int key)
+	bool Keyboard::getKeyUp(int key)
 	{
 		return (keyStates[(Keyboard::Key)key] == InputManager::KeyState::StateUp);
 	}

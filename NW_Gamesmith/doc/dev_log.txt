@@ -1,4 +1,4 @@
-// Days of Development: 4
+// Days of Development: 5
 
 // Official Begin:
 30.08.2015
@@ -7,8 +7,16 @@
 ???
 
 //////////////////////////////////////////////////////////////////
+// Day 5:
+- Split code for Message into Message.h and Message.cpp
+- Added getLocalBounds() to Renderable2D
+- Added background color for window
+- Added texture loading capabilities
+- Added Texture2D and TextureManager2D
+
+//////////////////////////////////////////////////////////////////
 // Day 4:
-- Replaced SpriteGroups by the ability to give Transform objects child Transforms
+- Replaced SpriteGroups with the ability to give Transform objects child Transforms
 - Fixed a bug with matrix rotation
 - Added BoundingBox2D for collision detection and defining the boundaries of a sprite
 - Added function to detach a child from a transform

@@ -17,6 +17,8 @@ namespace gamesmith { namespace graphics {
 
 		Renderable2D* add(Renderable2D* renderable) override;
 		void render() override;
+
+		inline Renderable2D* getRenderable(unsigned int index) { return (index >= m_Renderables.size() ? nullptr : m_Renderables[index]); }
 	};
 
 } }

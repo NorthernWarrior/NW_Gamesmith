@@ -139,9 +139,9 @@ namespace gamesmith { namespace input {
 			Z = 90
 		};
 
-		static bool GetKey(int key);
-		static bool GetKeyDown(int key);
-		static bool GetKeyUp(int key);
+		static bool getKey(int key);
+		static bool getKeyDown(int key);
+		static bool getKeyUp(int key);
 
 	private:
 		typedef std::map<Key, InputManager::KeyState> KeyStateMap;

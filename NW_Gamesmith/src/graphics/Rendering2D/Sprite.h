@@ -7,7 +7,7 @@ namespace gamesmith { namespace graphics {
 	class Sprite : public Renderable2D
 	{
 	public:
-		Sprite() = default;
+		Sprite();
 		Sprite(maths::vec2f position, maths::vec2f size, uint color);
 		Sprite(const maths::BoundingBox2D& bounds, uint color);
 	};

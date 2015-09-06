@@ -8,24 +8,24 @@ namespace gamesmith { namespace input {
 	InputManager::KeyNameMap InputManager::keyNames;
 	InputManager::MouseNameMap InputManager::mouseNames;
 
-	bool InputManager::GetButton(const std::string& name)
+	bool InputManager::getButton(const std::string& name)
 	{
-		return findButton(name, &Keyboard::GetKey, &Mouse::GetButton);
+		return findButton(name, &Keyboard::getKey, &Mouse::getButton);
 	}
-	bool InputManager::GetButtonDown(const std::string& name)
+	bool InputManager::getButtonDown(const std::string& name)
 	{
-		return findButton(name, &Keyboard::GetKeyDown, &Mouse::GetButtonDown);
+		return findButton(name, &Keyboard::getKeyDown, &Mouse::getButtonDown);
 	}
-	bool InputManager::GetButtonUp(const std::string& name)
+	bool InputManager::getButtonUp(const std::string& name)
 	{
-		return findButton(name, &Keyboard::GetKeyUp, &Mouse::GetButtonUp);
+		return findButton(name, &Keyboard::getKeyUp, &Mouse::getButtonUp);
 	}
 		 
-	void InputManager::RegisterButton(const std::string& name, int key)
+	void InputManager::registerButton(const std::string& name, int key)
 	{
 		keyNames[name].push_back(key);
 	}
-	void InputManager::RegisterMouseButton(const std::string& name, int mouseButton)
+	void InputManager::registerMouseButton(const std::string& name, int mouseButton)
 	{
 		mouseNames[name].push_back(mouseButton);
 	}

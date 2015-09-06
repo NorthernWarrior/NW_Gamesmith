@@ -31,6 +31,13 @@ namespace gamesmith
 			return result;
 		}
 
+		inline static bool exists(const std::string& filename)
+		{
+			FILE* file;
+			fopen_s(&file, filename.c_str(), "r");
+			return (file != nullptr);
+		}
+
 
 	private:
 		File() {}

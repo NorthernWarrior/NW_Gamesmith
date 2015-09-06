@@ -11,6 +11,8 @@
 #include "src/graphics/Rendering2D/Sprite.h"
 #include "src/graphics/Buffer/IndexBuffer.h"
 #include "src/graphics/Color.h"
+#include "src/graphics/TextureManager2D.h"
+#include <FreeImage/FreeImage.h>
 
 using namespace gamesmith;
 using namespace graphics;
@@ -22,52 +24,88 @@ int main()
 	srand(time(nullptr));
 
 	Window window;
+	window.setBackground(vec3f(0, 0, 0));
 	window.create("Gamesmith", 800, 400);
 
 	Shader* diffuse = ShaderManager::addFromFile("diffuse", "data/shader/diffuse.vert", "data/shader/diffuse.frag");
 	mat4 pr_matrix = mat4::orthographic(-(window.getWidth() / 2.f), (window.getWidth() / 2), (window.getHeight() / 2.f), 0.0f-(window.getHeight() / 2), -1, 1);
 
+	TileLayer backLayer(new BatchRenderer2D, diffuse);
 	TileLayer layer(new BatchRenderer2D, diffuse);
 
-	layer.add(new Sprite(vec2f(0, 0), vec2f(window.getWidth(), window.getHeight()), 0));
-	float hor = 10, vert = 5;
-	float w = window.getWidth() / hor, h = window.getHeight() / vert;
+	Texture2D* backTex = TextureManager2D::addFromFile("back", "data/gfx/back.png");
+	Sprite* back = new Sprite();
+	backLayer.add(back);
+
+	int spriteCnt = 0;
+	std::vector<vec2f>targets;
+	std::vector<vec2f>velocities;
+#if _DEBUG
+	float hor = 10, vert = 2;
+	float w = 16, h = 16;
+#else
+	float hor = 100, vert = 20;
+	float w = 16, h = 16;
+#endif
 	for (int y = 0; y < vert; ++y)
 	{
 		for (int x = 0; x < hor; ++x)
-			layer.add(new Sprite(vec2f(-(window.getWidth() / 2.f) + w/2 + (x*w) + ((w/2)*0.025), -(window.getHeight() / 2.f) +h/2 + (y*h) + ((h/2)*0.025)), vec2f(w-(w*0.05), h-(h*0.05)), Color::fromRGBA(vec4f((rand() % 256) / 255.f, 0, 0.5, 1.f))));
+		{
+			vec2f pos(-(window.getWidth() / 2.f) + w / 2 + (x*w) + ((w / 2)*0.025), -(window.getHeight() / 2.f) + h / 2 + (y*h) + ((h / 2)*0.025));
+			layer.add(new Sprite(pos, vec2f(w - (w*0.05), h - (h*0.05)), Color::fromRGBA(255, (rand() % 256), 0, 255)));
+			targets.push_back(vec2f(rand() % 1000 - 500, rand() % 1000 - 500));
+			velocities.push_back(vec2f());
+			++spriteCnt;
+		}
 	}
-	Sprite* player = (Sprite*)layer.add(new Sprite(vec2f(), vec2f(100, 100), 0xff333333));
-	Sprite* eye_l = new Sprite(vec2f(-25, -20), vec2f(10, 20), 0xffaaaaaa);
-	eye_l->getTransform()->setParent(player->getTransform());
-	Sprite* eye_r = new Sprite(vec2f(25, -20), vec2f(10, 20), 0xffaaaaaa);
-	eye_r->getTransform()->setParent(player->getTransform());
 
-	Sprite* mouth = new Sprite(vec2f(0, 25), vec2f(50, 10), 0xffaaaaaa);
-	mouth->getTransform()->setParent(player->getTransform());
-	Sprite* mouth_l = new Sprite(vec2f(-25, -10), vec2f(10, 10), 0xffaaaaaa);
-	mouth_l->getTransform()->setParent(mouth->getTransform());
-	Sprite* mouth_r = new Sprite(vec2f(25, -10), vec2f(10, 10), 0xffaaaaaa);
-	mouth_r->getTransform()->setParent(mouth->getTransform());
-	Sprite* tongue = new Sprite(vec2f(17, 5), vec2f(15, 25), Color::fromRGBA(255, 0, 0, 255));
-	tongue->getTransform()->setParent(mouth->getTransform());
-	tongue->getTransform()->setRotation(-20);
+	Texture2D* myTex = TextureManager2D::addFromFile("player", "data/gfx/player.png");
+	Sprite* player = new Sprite();
+	player->setSize(vec2f(64, 64));
+	layer.add(player);
 
 	double lastTime = glfwGetTime();
 	double currentTime = 0;
 	double begin = 0;
 	double dt = 0;
 	int frameCnt = 0;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	double speed = 0;
 	while (window.run())
 	{
+		speed = 2000 * dt;
 		begin = glfwGetTime();
 
 		diffuse->bind();
-		//pr_matrix = mat4::orthographic(-(window.getWidth() / 2.f), (window.getWidth() / 2), (window.getHeight() / 2.f), -(window.getHeight() / 2), -1, 1);
+		pr_matrix = mat4::orthographic(-(window.getWidth() / 2.f), (window.getWidth() / 2), (window.getHeight() / 2.f), 0.0f-(window.getHeight() / 2), -1, 1);
+		back->setSize(vec2f(window.getWidth(), window.getHeight()));
 		diffuse->SetUniformMat4("pr_matrix", pr_matrix);
-		diffuse->SetUniformVec2("light_pos", player->getTransform()->getPosition());
 
+		vec2f target = player->getTransform()->getPosition();//Mouse::getPosition() - (vec2f(window.getWidth(), window.getHeight()) / 2.0f);
+		diffuse->SetUniformVec2("light_pos", target);
+		for (int i = 0; i < spriteCnt; ++i)
+		{
+			Renderable2D* curr = layer.getRenderable(i);
+			auto pos = curr->getTransform()->getPosition();
+			float dist = pos.distance(targets[i]);
+			if (dist <= 500.0f)
+				targets[i] = vec2f(target.x + rand()%2 - 1, target.y + rand() % 2 - 1);
+			velocities[i] += (targets[i] - pos).normalise() * speed;
+			velocities[i].x = clamp(velocities[i].x, -1000.f, 1000.f);
+			velocities[i].y = clamp(velocities[i].y, -1000.f, 1000.f);
+			curr->setColor(Color::fromRGBA(255, clamp<float>(abs(pos.distance(target) / 5.f), 0, 150), 0, 255));
+			curr->setPosition(pos + (velocities[i] * dt));
+		}
+
+		backTex->bind();
+		backLayer.render();
+
+		myTex->bind();
 		layer.render();
+
 
 		dt = glfwGetTime() - begin;
 
@@ -80,28 +118,21 @@ int main()
 			lastTime += 1.0;
 		}
 
-		float speed = 300 * dt;
-
-		if (Keyboard::GetKey(Keyboard::Key::W))
+		if (Keyboard::getKey(Keyboard::Key::W))
 			player->setPosition(player->getTransform()->getPosition() + vec2f(0, -speed));
-		else if (Keyboard::GetKey(Keyboard::Key::S))
+		else if (Keyboard::getKey(Keyboard::Key::S))
 			player->setPosition(player->getTransform()->getPosition() + vec2f(0, speed));
 
-		if (Keyboard::GetKey(Keyboard::Key::A))
+		if (Keyboard::getKey(Keyboard::Key::A))
 			player->setPosition(player->getTransform()->getPosition() + vec2f(-speed, 0));
-		else if (Keyboard::GetKey(Keyboard::Key::D))
+		else if (Keyboard::getKey(Keyboard::Key::D))
 			player->setPosition(player->getTransform()->getPosition() + vec2f(speed, 0));
 
-		if (Keyboard::GetKey(Keyboard::Key::Q))
+		if (Keyboard::getKey(Keyboard::Key::Q))
 			player->getTransform()->setRotation(player->getTransform()->getRotation() - (speed/2));
-		else if (Keyboard::GetKey(Keyboard::Key::E))
+		else if (Keyboard::getKey(Keyboard::Key::E))
 			player->getTransform()->setRotation(player->getTransform()->getRotation() + (speed/2));
 
-		if (Keyboard::GetKeyUp(Keyboard::F5))
-		{
-			diffuse->reload();
-			diffuse->bind();
-		}
 
 	}
 

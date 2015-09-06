@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../utils/typedefs.h"
+#include "../maths/Maths.h"
 
 namespace gamesmith { namespace graphics {
 
@@ -17,6 +18,7 @@ namespace gamesmith { namespace graphics {
 		int m_Width, m_Height;
 		bool m_Vsync;
 		ushort m_Samples;
+		maths::vec3f m_Background;
 
 	public:
 		Window();
@@ -30,6 +32,7 @@ namespace gamesmith { namespace graphics {
 
 		void setSamples(ushort samples);
 		void setVsync(bool enabled);
+		void setBackground(maths::vec3f color);
 
 		inline uint getWidth() const { return m_Width; }
 		inline uint getHeight() const { return m_Height; }

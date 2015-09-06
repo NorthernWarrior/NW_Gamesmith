@@ -11,6 +11,7 @@ namespace gamesmith { namespace graphics {
 	struct VertexData
 	{
 		maths::vec3f vertex;
+		maths::vec2f uv;
 		uint color;
 	};
 
@@ -43,14 +44,16 @@ namespace gamesmith { namespace graphics {
 		void setColor(uint color);
 		void setColor(const maths::vec4f& color);
 		void setPosition(maths::vec2f pos);
+		void setSize(maths::vec2f size);
 
 		inline uint getColor() const { return m_Color; }
 		inline Transform2D* getTransform() { return &m_Transform; }
 		inline const maths::vec2f getSize() const { return m_Size; }
+		inline const maths::BoundingBox2D getLocalBounds() const { return maths::BoundingBox2D(maths::vec2f(), m_Size); }
 
 	protected:
 		Renderable2D() :
-			m_Color(0xffffffff), m_Transform(maths::vec2f(), 0, maths::vec2f(1.f, 1.f), this), m_Size(maths::vec2f(0, 0)) { }
+			m_Color(0xffffffff), m_Transform(maths::vec2f(), 0, maths::vec2f(1.f, 1.f), this), m_Size(maths::vec2f(1, 1)) { }
 	};
 
 } }

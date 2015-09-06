@@ -74,6 +74,10 @@ namespace gamesmith { namespace maths {
 		{
 			return vec2(left.x * value, left.y * value);
 		}
+		friend vec2<T> operator/(vec2<T> left, T value)
+		{
+			return vec2(left.x / value, left.y / value);
+		}
 
 		bool operator==(const vec2<T>& other)
 		{

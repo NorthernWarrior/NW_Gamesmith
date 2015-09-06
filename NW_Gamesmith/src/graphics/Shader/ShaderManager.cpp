@@ -11,7 +11,7 @@ namespace gamesmith { namespace graphics {
 
 	Shader * ShaderManager::get(Shader::Default shaderID)
 	{
-		if (m_DefaultShader.size() == 0)
+		if (m_DefaultShader.empty())
 		{
 			// TODO: Log!
 			std::cout << "[ShaderManager] Default shader are empty!" << std::endl;

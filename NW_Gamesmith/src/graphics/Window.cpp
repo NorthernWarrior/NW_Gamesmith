@@ -2,17 +2,18 @@
 
 #include "../input/Input.h"
 #include "Shader/ShaderManager.h"
+#include "TextureManager2D.h"
 
 namespace gamesmith { namespace graphics {
 
 	Window::Window() :
-		m_GlfwHandle(nullptr), m_Vsync(false), m_Samples(0)
+		m_GlfwHandle(nullptr), m_Vsync(false), m_Samples(0), m_Background(maths::vec3f(57.f / 255, 55.f / 255, 54.f / 255))
 	{
 		glfw_Init();
 	}
 
 	Window::Window(const std::string & title, int width, int height) :
-		m_GlfwHandle(nullptr), m_Vsync(false), m_Samples(0)
+		m_GlfwHandle(nullptr), m_Vsync(false), m_Samples(0), m_Background(maths::vec3f(57.f / 255, 55.f / 255, 54.f / 255))
 	{
 		glfw_Init();
 
@@ -22,6 +23,7 @@ namespace gamesmith { namespace graphics {
 	Window::~Window()
 	{
 		ShaderManager::clear();
+		TextureManager2D::clear();
 
 		if (m_GlfwHandle != nullptr)
 			glfwDestroyWindow(m_GlfwHandle);
@@ -62,12 +64,13 @@ namespace gamesmith { namespace graphics {
 
 		setVsync(m_Vsync);
 
-		glClearColor(57.f / 255, 55.f / 255, 54.f / 255, 1.0f);
+		glClearColor(m_Background.r, m_Background.g, m_Background.b, 1.0f); 
 
 		// TODO: Log!
 		std::cout << "[Window] OpenGL: " << glGetString(GL_VERSION) << std::endl;
 
 		ShaderManager::loadDefault();
+		TextureManager2D::init();
 		return true;
 	}
 
@@ -94,6 +97,12 @@ namespace gamesmith { namespace graphics {
 	{
 		m_Vsync = enabled;
 		glfwSwapInterval(m_Vsync);
+	}
+
+	void Window::setBackground(maths::vec3f color)
+	{
+		m_Background = color;
+		glClearColor(m_Background.r, m_Background.g, m_Background.b, 1.0f);
 	}
 
 	void Window::glfw_Init()

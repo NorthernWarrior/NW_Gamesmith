@@ -27,20 +27,20 @@ namespace gamesmith { namespace input {
 			ButtonMiddle = Button3
 		};
 
-		static inline void SetPosition(maths::vec2f pos)
+		static inline void setPosition(maths::vec2f pos)
 		{
 			glfwSetCursorPos(glfwGetCurrentContext(), pos.x, pos.y);
 		}
-		static inline maths::vec2f GetPosition()
+		static inline maths::vec2f getPosition()
 		{
 			double x = 0, y = 0;
 			glfwGetCursorPos(glfwGetCurrentContext(), &x, &y);
 			return maths::vec2f(static_cast<float>(x), static_cast<float>(y));
 		}
 
-		static bool GetButton(int mouseButton);
-		static bool GetButtonDown(int mouseButton);
-		static bool GetButtonUp(int mouseButton);
+		static bool getButton(int mouseButton);
+		static bool getButtonDown(int mouseButton);
+		static bool getButtonUp(int mouseButton);
 
 	private:
 		typedef std::map<Button, InputManager::KeyState> MouseStateMap;

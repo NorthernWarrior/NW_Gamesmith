@@ -4,17 +4,17 @@ namespace gamesmith { namespace input {
 
 	Mouse::MouseStateMap Mouse::mouseStates;
 
-	bool Mouse::GetButton(int mouseButton)
+	bool Mouse::getButton(int mouseButton)
 	{		
 		return (glfwGetMouseButton(glfwGetCurrentContext(), mouseButton) == GLFW_PRESS);
 	}
 
-	bool Mouse::GetButtonDown(int mouseButton)
+	bool Mouse::getButtonDown(int mouseButton)
 	{
 		return (mouseStates[(Mouse::Button)mouseButton] == InputManager::KeyState::StateDown);
 	}
 
-	bool Mouse::GetButtonUp(int mouseButton)
+	bool Mouse::getButtonUp(int mouseButton)
 	{
 		return (mouseStates[(Mouse::Button)mouseButton] == InputManager::KeyState::StateUp);
 	}
