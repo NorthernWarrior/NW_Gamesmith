@@ -223,6 +223,10 @@
   <ItemGroup>
     <Text Include="doc\dev_log.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\gfx\back.png" />
+    <Image Include="data\gfx\player.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

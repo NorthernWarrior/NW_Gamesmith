@@ -44,7 +44,7 @@ int main()
 	float hor = 10, vert = 2;
 	float w = 16, h = 16;
 #else
-	float hor = 100, vert = 20;
+	float hor = 100, vert = 200;
 	float w = 16, h = 16;
 #endif
 	for (int y = 0; y < vert; ++y)
@@ -52,7 +52,7 @@ int main()
 		for (int x = 0; x < hor; ++x)
 		{
 			vec2f pos(-(window.getWidth() / 2.f) + w / 2 + (x*w) + ((w / 2)*0.025), -(window.getHeight() / 2.f) + h / 2 + (y*h) + ((h / 2)*0.025));
-			layer.add(new Sprite(pos, vec2f(w - (w*0.05), h - (h*0.05)), Color::fromRGBA(255, (rand() % 256), 0, 255)));
+			layer.add(new Sprite(pos, vec2f(w - (w*0.05), h - (h*0.05)), Color::fromRGBA(255, (rand() % 256), 0, 100)));
 			targets.push_back(vec2f(rand() % 1000 - 500, rand() % 1000 - 500));
 			velocities.push_back(vec2f());
 			++spriteCnt;
@@ -62,6 +62,7 @@ int main()
 	Texture2D* myTex = TextureManager2D::addFromFile("player", "data/gfx/player.png");
 	Sprite* player = new Sprite();
 	player->setSize(vec2f(64, 64));
+	player->setColor(0xff0011ff);
 	layer.add(player);
 
 	double lastTime = glfwGetTime();
@@ -96,7 +97,7 @@ int main()
 			velocities[i] += (targets[i] - pos).normalise() * speed;
 			velocities[i].x = clamp(velocities[i].x, -1000.f, 1000.f);
 			velocities[i].y = clamp(velocities[i].y, -1000.f, 1000.f);
-			curr->setColor(Color::fromRGBA(255, clamp<float>(abs(pos.distance(target) / 5.f), 0, 150), 0, 255));
+			curr->setColor(Color::fromRGBA(255, clamp<float>(abs(pos.distance(target) / 5.f), 0, 150), 0, 50));
 			curr->setPosition(pos + (velocities[i] * dt));
 		}
 
