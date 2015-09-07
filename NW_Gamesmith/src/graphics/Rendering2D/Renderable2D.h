@@ -27,15 +27,17 @@ namespace gamesmith { namespace graphics {
 
 		virtual void onSubmit(Renderer2D* renderer) const
 		{
+			renderer->submit(this);
+
+			auto childs = m_Transform.getChildren();
+			if (childs.empty())
+				return;
+
 			renderer->pushTransform(m_Transform.getMatrix());
 
-			// TODO: This is definitely not a good solution!
-			auto f = *this;
-			renderer->submit(&(f));
-
-			for (Transform2D* t : m_Transform.getChildren())
+			for (int i = 0; i < childs.size(); ++i)
 			{
-				t->getRenderable()->onSubmit(renderer);
+				childs[i]->getRenderable()->onSubmit(renderer);
 			}
 
 			renderer->popTransform();
@@ -48,6 +50,7 @@ namespace gamesmith { namespace graphics {
 
 		inline uint getColor() const { return m_Color; }
 		inline Transform2D* getTransform() { return &m_Transform; }
+		inline const maths::mat4 getTransformMatrix() const { return m_Transform.getMatrix(); }
 		inline const maths::vec2f getSize() const { return m_Size; }
 		inline const maths::BoundingBox2D getLocalBounds() const { return maths::BoundingBox2D(maths::vec2f(), m_Size); }
 

@@ -68,7 +68,7 @@ namespace gamesmith { namespace graphics {
 		m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	}
 
-	void BatchRenderer2D::submit(Renderable2D* renderable)
+	void BatchRenderer2D::submit(const Renderable2D* renderable)
 	{
 		if (m_Buffer == nullptr || renderable == nullptr)
 			return;
@@ -86,23 +86,24 @@ namespace gamesmith { namespace graphics {
 		const vec2f& size = local.getSize();
 		const vec3f& position = local.getTopLeft();
 		const unsigned int color = renderable->getColor();
+		const mat4& re_mat = renderable->getTransformMatrix();
 		
-		m_Buffer->vertex = (*m_TransformBack) * position;
+		m_Buffer->vertex = (*m_TransformBack) * re_mat * position;
 		m_Buffer->uv = vec2f(0, 1);
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x + size.x, position.y, position.z);
+		m_Buffer->vertex = (*m_TransformBack) * re_mat * vec3f(position.x + size.x, position.y, position.z);
 		m_Buffer->uv = vec2f(1, 1);
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x + size.x, position.y + size.y, position.z);
+		m_Buffer->vertex = (*m_TransformBack) * re_mat * vec3f(position.x + size.x, position.y + size.y, position.z);
 		m_Buffer->uv = vec2f(1, 0);
 		m_Buffer->color = color;
 		m_Buffer++;
 
-		m_Buffer->vertex = (*m_TransformBack) * vec3f(position.x, position.y + size.y, position.z);
+		m_Buffer->vertex = (*m_TransformBack) * re_mat * vec3f(position.x, position.y + size.y, position.z);
 		m_Buffer->uv = vec2f(0, 0);
 		m_Buffer->color = color;
 		m_Buffer++;

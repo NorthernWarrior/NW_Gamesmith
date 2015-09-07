@@ -32,19 +32,19 @@ int main()
 
 	TileLayer backLayer(new BatchRenderer2D, diffuse);
 	TileLayer layer(new BatchRenderer2D, diffuse);
-
+	
 	Texture2D* backTex = TextureManager2D::addFromFile("back", "data/gfx/back.png");
 	Sprite* back = new Sprite();
 	backLayer.add(back);
-
+	
 	int spriteCnt = 0;
 	std::vector<vec2f>targets;
 	std::vector<vec2f>velocities;
 #if _DEBUG
-	float hor = 10, vert = 2;
+	float hor = 100, vert = 20;
 	float w = 16, h = 16;
 #else
-	float hor = 100, vert = 200;
+	float hor = 2000, vert = 100;
 	float w = 16, h = 16;
 #endif
 	for (int y = 0; y < vert; ++y)
@@ -75,9 +75,11 @@ int main()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	double speed = 0;
+	double particles = 0;
 	while (window.run())
 	{
-		speed = 2000 * dt;
+		speed = 1000 * dt;
+		particles = 2000 * dt;
 		begin = glfwGetTime();
 
 		diffuse->bind();
@@ -94,7 +96,7 @@ int main()
 			float dist = pos.distance(targets[i]);
 			if (dist <= 500.0f)
 				targets[i] = vec2f(target.x + rand()%2 - 1, target.y + rand() % 2 - 1);
-			velocities[i] += (targets[i] - pos).normalise() * speed;
+			velocities[i] += (targets[i] - pos).normalise() * particles;
 			velocities[i].x = clamp(velocities[i].x, -1000.f, 1000.f);
 			velocities[i].y = clamp(velocities[i].y, -1000.f, 1000.f);
 			curr->setColor(Color::fromRGBA(255, clamp<float>(abs(pos.distance(target) / 5.f), 0, 150), 0, 50));
