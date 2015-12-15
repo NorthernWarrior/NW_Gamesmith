@@ -19,36 +19,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6D27D61B-6444-438A-9FAB-E4A1ADE77D14}</ProjectGuid>
+    <ProjectGuid>{FF21FF5D-1DE4-46C9-8D33-165B96DD3034}</ProjectGuid>
     <RootNamespace>NW_Gamesmith</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -71,41 +71,29 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\Intermediates\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)external\glew\include;$(SolutionDir)external\FreeImage\include;$(SolutionDir)external\glfw\include;$(IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external\glew\lib\$(Platform);$(SolutionDir)external\FreeImage\lib\$(Platform);$(SolutionDir)external\glfw\lib\$(Platform);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\Intermediates\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)external\glew\include;$(SolutionDir)external\FreeImage\include;$(SolutionDir)external\glfw\include;$(IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external\glew\lib\$(Platform);$(SolutionDir)external\FreeImage\lib\$(Platform);$(SolutionDir)external\glfw\lib\$(Platform);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\Intermediates\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
-    <IncludePath>$(SolutionDir)external\glew\include;$(SolutionDir)external\FreeImage\include;$(SolutionDir)external\glfw\include;$(IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external\glew\lib\$(Platform);$(SolutionDir)external\FreeImage\lib\$(Platform);$(SolutionDir)external\glfw\lib\$(Platform);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IntDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\Intermediates\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\Intermediates\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)external\glew\include;$(SolutionDir)external\FreeImage\include;$(SolutionDir)external\glfw\include;$(IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external\glew\lib\$(Platform);$(SolutionDir)external\FreeImage\lib\$(Platform);$(SolutionDir)external\glfw\lib\$(Platform);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <PreprocessorDefinitions>GLEW_STATIC;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;FreeImageLibD.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,14 +101,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;FreeImageLibD.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,20 +115,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <PreprocessorDefinitions>GLEW_STATIC;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,77 +134,23 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\graphics\Buffer\IndexBuffer.cpp" />
-    <ClCompile Include="src\graphics\Rendering2D\BatchRenderer2D.cpp" />
-    <ClCompile Include="src\graphics\Rendering2D\Renderable2D.cpp" />
-    <ClCompile Include="src\graphics\Rendering2D\Sprite.cpp" />
-    <ClCompile Include="src\graphics\RenderLayer\RenderLayer2D.cpp" />
-    <ClCompile Include="src\graphics\RenderLayer\TileLayer.cpp" />
-    <ClCompile Include="src\graphics\Shader\Shader.cpp" />
-    <ClCompile Include="src\graphics\Shader\ShaderManager.cpp" />
-    <ClCompile Include="src\graphics\Texture2D.cpp" />
-    <ClCompile Include="src\graphics\TextureManager2D.cpp" />
-    <ClCompile Include="src\graphics\Window.cpp" />
-    <ClCompile Include="src\input\InputManager.cpp" />
-    <ClCompile Include="src\input\Keyboard.cpp" />
-    <ClCompile Include="src\input\Mouse.cpp" />
-    <ClCompile Include="src\utils\Message.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\graphics\Buffer\IndexBuffer.h" />
-    <ClInclude Include="src\graphics\Color.h" />
-    <ClInclude Include="src\graphics\RenderLayer\RenderLayer2D.h" />
-    <ClInclude Include="src\graphics\Rendering2D\BatchRenderer2D.h" />
-    <ClInclude Include="src\graphics\Rendering2D\Renderable2D.h" />
-    <ClInclude Include="src\graphics\Rendering2D\Renderer2D.h" />
-    <ClInclude Include="src\graphics\Rendering2D\Sprite.h" />
-    <ClInclude Include="src\graphics\Rendering2D\Transform2D.h" />
-    <ClInclude Include="src\graphics\RenderLayer\TileLayer.h" />
-    <ClInclude Include="src\graphics\Shader\DefaultShader.h" />
-    <ClInclude Include="src\graphics\Shader\Shader.h" />
-    <ClInclude Include="src\graphics\Shader\ShaderManager.h" />
-    <ClInclude Include="src\graphics\Texture2D.h" />
-    <ClInclude Include="src\graphics\TextureManager2D.h" />
-    <ClInclude Include="src\maths\BoundingBox2D.h" />
-    <ClInclude Include="src\maths\Maths.h" />
-    <ClInclude Include="src\utils\File.h" />
-    <ClInclude Include="src\graphics\Window.h" />
-    <ClInclude Include="src\input\Input.h" />
-    <ClInclude Include="src\input\InputManager.h" />
-    <ClInclude Include="src\input\Keyboard.h" />
-    <ClInclude Include="src\input\Mouse.h" />
-    <ClInclude Include="src\maths\mat4.h" />
-    <ClInclude Include="src\maths\math_helper.h" />
-    <ClInclude Include="src\maths\vec2.h" />
-    <ClInclude Include="src\maths\vec3.h" />
-    <ClInclude Include="src\maths\vec4.h" />
-    <ClInclude Include="src\utils\Message.h" />
-    <ClInclude Include="src\utils\typedefs.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="doc\dev_log.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="data\gfx\back.png" />
-    <Image Include="data\gfx\player.png" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
