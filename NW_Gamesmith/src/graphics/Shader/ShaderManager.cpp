@@ -71,6 +71,7 @@ namespace gamesmith { namespace graphics {
 	void ShaderManager::loadDefault()
 	{
 		m_DefaultShader[Shader::Diffuse] = Shader::createFromString(default_diffuse_vert, default_diffuse_frag);
+		m_DefaultShader[Shader::SimpleTexture] = Shader::createFromString(default_simple_texture_vert, default_simple_texture_frag);
 	}
 
 	void ShaderManager::clear()

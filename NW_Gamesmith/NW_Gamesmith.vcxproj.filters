@@ -154,10 +154,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\shader\diffuse.vert" />
-    <None Include="data\shader\diffuse.frag" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="doc\dev_log.txt" />
   </ItemGroup>
   <ItemGroup>

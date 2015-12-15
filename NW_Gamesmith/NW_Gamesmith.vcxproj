@@ -219,10 +219,6 @@
     <ClInclude Include="src\utils\typedefs.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\shader\diffuse.frag" />
-    <None Include="data\shader\diffuse.vert" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="doc\dev_log.txt" />
   </ItemGroup>
   <ItemGroup>

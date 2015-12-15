@@ -53,6 +53,7 @@ namespace gamesmith { namespace graphics {
 		inline const maths::mat4 getTransformMatrix() const { return m_Transform.getMatrix(); }
 		inline const maths::vec2f getSize() const { return m_Size; }
 		inline const maths::BoundingBox2D getLocalBounds() const { return maths::BoundingBox2D(maths::vec2f(), m_Size); }
+		inline const maths::BoundingBox2D getGlobalBounds() const { return maths::BoundingBox2D(m_Transform.getPosition(), m_Size); }
 
 	protected:
 		Renderable2D() :

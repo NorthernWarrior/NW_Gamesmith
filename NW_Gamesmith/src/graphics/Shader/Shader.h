@@ -26,7 +26,7 @@ namespace gamesmith { namespace graphics {
 		enum Default
 		{
 			Diffuse,
-			Texture
+			SimpleTexture
 		};
 
 		~Shader();
