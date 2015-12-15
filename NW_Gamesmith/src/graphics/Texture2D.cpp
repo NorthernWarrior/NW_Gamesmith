@@ -24,6 +24,8 @@ namespace gamesmith { namespace graphics {
 
 	void Texture2D::bind()
 	{
+		if (m_TextureID == 0)
+			return;
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);
 	}
 

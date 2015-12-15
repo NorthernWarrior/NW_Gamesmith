@@ -19,6 +19,98 @@ using namespace graphics;
 using namespace maths;
 using namespace input;
 
+vec2f nextCarrotPos()
+{
+	return vec2f((rand() % 860) + 20, rand() % 410 + 20);
+}
+
+int main()
+{
+	srand(time(nullptr));
+
+	Window window;
+	window.setVsync(true);
+	window.setSamples(8);
+	window.create("Catch the carrots!", 900, 450);
+
+	Shader* diffuse = ShaderManager::get(Shader::SimpleTexture);
+	mat4 pr_matrix = mat4::orthographic(0, window.getWidth(), window.getHeight(), 0, -1, 1);
+	diffuse->bind();
+	diffuse->SetUniformMat4("pr_matrix", pr_matrix);
+
+
+	BatchRenderer2D backRenderer;
+	Texture2D* backTex = TextureManager2D::addFromFile("Background", "data/gfx/grass.png");
+	Sprite* back = new Sprite(vec2f(450, 225), vec2f(900, 450), 0xffffffff);
+	
+	BatchRenderer2D carrotRenderer;
+	Texture2D* carrotTex = TextureManager2D::addFromFile("Carrot", "data/gfx/carrot.png");
+	std::vector<Sprite*> carrots;
+	for (int i = 0; i < 10; ++i)
+		carrots.push_back(new Sprite(nextCarrotPos(), vec2f(16, 16), 0xffffffff));
+
+	BatchRenderer2D playerRenderer;
+	Texture2D* playerTex = TextureManager2D::addFromFile("Player", "data/gfx/player.png");
+	Sprite* player = new Sprite(vec2f(450, 225), vec2f(32, 32), 0xffffffff);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	float speed;
+	float dt, begin = glfwGetTime();
+	while (window.run())
+	{
+		dt = glfwGetTime() - begin;
+		begin = glfwGetTime();
+		speed = 500 * dt;
+
+		if (Keyboard::getKey(Keyboard::Key::W))
+			player->setPosition(player->getTransform()->getPosition() + vec2f(0, -speed));
+		else if (Keyboard::getKey(Keyboard::Key::S))
+			player->setPosition(player->getTransform()->getPosition() + vec2f(0, speed));
+
+		if (Keyboard::getKey(Keyboard::Key::A))
+			player->setPosition(player->getTransform()->getPosition() + vec2f(-speed, 0));
+		else if (Keyboard::getKey(Keyboard::Key::D))
+			player->setPosition(player->getTransform()->getPosition() + vec2f(speed, 0));
+
+		for (int i = carrots.size() - 1; i >= 0; --i)
+		{
+			if (carrots[i]->getGlobalBounds().intersects(player->getGlobalBounds()))
+			{
+				carrots.erase(carrots.begin() + i);
+				carrots.push_back(new Sprite(nextCarrotPos(), vec2f(16, 16), 0xffffffff));
+			}
+		}
+
+		diffuse->SetUniformVec2("light_pos", player->getTransform()->getPosition());
+
+		backTex->bind();
+		backRenderer.bind();
+		backRenderer.submit(back);
+		backRenderer.unbind();
+		backRenderer.display();
+
+		carrotTex->bind();
+		carrotRenderer.bind();
+		for (int i = 0; i < carrots.size(); ++i)
+			carrotRenderer.submit(carrots[i]);
+		carrotRenderer.unbind();
+		carrotRenderer.display();
+
+		playerTex->bind();
+		playerRenderer.bind();
+		playerRenderer.submit(player);
+		playerRenderer.unbind();
+		playerRenderer.display();
+	}
+
+	delete back;
+
+	return EXIT_SUCCESS;
+}
+
+#if 0
 int main()
 {
 	srand(time(nullptr));
@@ -27,7 +119,7 @@ int main()
 	window.setBackground(vec3f(0, 0, 0));
 	window.create("Gamesmith", 800, 400);
 
-	Shader* diffuse = ShaderManager::addFromFile("diffuse", "data/shader/diffuse.vert", "data/shader/diffuse.frag");
+	Shader* diffuse = ShaderManager::get(Shader::SimpleTexture);
 	mat4 pr_matrix = mat4::orthographic(-(window.getWidth() / 2.f), (window.getWidth() / 2), (window.getHeight() / 2.f), 0.0f-(window.getHeight() / 2), -1, 1);
 
 	TileLayer backLayer(new BatchRenderer2D, diffuse);
@@ -59,7 +151,7 @@ int main()
 		}
 	}
 
-	Texture2D* myTex = TextureManager2D::addFromFile("player", "data/gfx/player.png");
+	Texture2D* myTex = TextureManager2D::addFromFile("Player", "data/gfx/player.png");
 	Sprite* player = new Sprite();
 	player->setSize(vec2f(64, 64));
 	player->setColor(0xff0011ff);
@@ -141,7 +233,7 @@ int main()
 
 	return EXIT_SUCCESS;
 }
-
+#endif
 
 
 

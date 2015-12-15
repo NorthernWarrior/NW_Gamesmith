@@ -1,10 +1,17 @@
-// Days of Development: 5
+// Days of Development: 6
 
 // Official Begin:
 30.08.2015
 
 // Official End:
 ???
+
+//////////////////////////////////////////////////////////////////
+// Day 6:
+- Added default shader "Simple Texture"
+- Removed "diffuse.vert" and "diffuse.frag"
+  because of the default shader
+- Added GlobalBounds to Renderable2D
 
 //////////////////////////////////////////////////////////////////
 // Day 5:

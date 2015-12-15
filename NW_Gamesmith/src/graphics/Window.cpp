@@ -38,9 +38,6 @@ namespace gamesmith { namespace graphics {
 		m_Height = height;
 
 		glfwWindowHint(GLFW_SAMPLES, m_Samples);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		m_GlfwHandle = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 		if (!m_GlfwHandle)
 		{
@@ -49,7 +46,6 @@ namespace gamesmith { namespace graphics {
 			return false;
 		}
 		glfwMakeContextCurrent(m_GlfwHandle);
-		glewExperimental = true;
 		if (glewInit() != GLEW_OK)
 		{
 			m_GlfwHandle = nullptr;
@@ -67,7 +63,12 @@ namespace gamesmith { namespace graphics {
 		glClearColor(m_Background.r, m_Background.g, m_Background.b, 1.0f); 
 
 		// TODO: Log!
-		std::cout << "[Window] OpenGL: " << glGetString(GL_VERSION) << std::endl;
+#ifdef _DEBUG
+		std::cout << "[Window] Running in Debug Mode!" << std::endl;
+#endif
+		std::cout << "[Window] OpenGL Vendor:   " << glGetString(GL_VENDOR) << std::endl;
+		std::cout << "[Window] OpenGL Version:  " << glGetString(GL_VERSION) << std::endl;
+		std::cout << "[Window] OpenGL Renderer: " << glGetString(GL_RENDERER) << std::endl;
 
 		ShaderManager::loadDefault();
 		TextureManager2D::init();
