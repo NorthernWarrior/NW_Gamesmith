@@ -32,6 +32,8 @@ private:
 	uint m_Width, m_Height;
 	std::string m_Title;
 	bool m_Vsync;
+
+	float m_InitialAspectRatio;
 };
 
 } 

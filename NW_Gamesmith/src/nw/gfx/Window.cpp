@@ -49,6 +49,7 @@ void Window::Show()
 		return;
 	}
 
+	m_InitialAspectRatio = (float)m_Height / (float)m_Width;
 	m_GlfwHandle = (int*)glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
 	if (!m_GlfwHandle)
 	{
@@ -113,12 +114,29 @@ bool Window::IsClosed()
 
 void Window::WindowResize(GLFWwindow* window, int width, int height)
 {
-	glViewport(0, 0, width, height);
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
+
+	// if m_Options.KeepInitialAspectRatio
+	{
+		int actualHeight = height;
+		int actualWidth = width;
+		float initAR = win->m_InitialAspectRatio;
+		float currAR = (float)height / (float)width;
+		std::cout << initAR << " " << currAR << std::endl;
+		if (currAR < initAR)
+			width = height / initAR;
+		else
+			height = width * initAR;
+		glViewport((actualWidth - width) / 2, (actualHeight - height) / 2, width, height);
+	}
+	// else
+		//glViewport(0, 0, width, height);
+
 	if (win == nullptr)
 		return;
 	win->m_Width = (uint)width;
 	win->m_Height = (uint)height;
+	// TODO: WindowOptions Width and Height for Gamesmith Class Object
 }
 void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
