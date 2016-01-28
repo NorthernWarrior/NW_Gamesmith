@@ -60,14 +60,28 @@ Shader* Shader::Create(Types type)
 {
 	uint programID = glCreateProgram();
 
-	// TODO: Based on type
-	const char* vert = default_diffuse_vert.c_str();
-	const char* frag = default_diffuse_frag.c_str();
+	std::string name;
+	const char* vert;
+	const char* frag;
+	switch (type)
+	{
+		case Types::Diffuse:
+			vert = default_diffuse_vert.c_str();
+			frag = default_diffuse_frag.c_str();
+			name = "Diffuse";
+			break;
+
+		case Types::Texture:
+			vert = default_simple_texture_vert.c_str();
+			frag = default_simple_texture_frag.c_str();
+			name = "Texture";
+			break;
+	}
 
 	uint vertID = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertID, 1, &vert, nullptr);
 	glCompileShader(vertID);
-	if (!CheckShader(vertID, "Diffuse: Vertex Shader")) // TODO: Name based on type
+	if (!CheckShader(vertID, name + ": Vertex Shader")) // TODO: Name based on type
 	{
 		glDeleteProgram(programID);
 		return nullptr;
@@ -76,7 +90,7 @@ Shader* Shader::Create(Types type)
 	uint fragID = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragID, 1, &frag, nullptr);
 	glCompileShader(fragID);
-	if (!CheckShader(fragID, "Diffuse: Fragment Shader")) // TODO: Name based on type
+	if (!CheckShader(fragID, name + ": Fragment Shader")) // TODO: Name based on type
 	{
 		glDeleteShader(vertID);
 		glDeleteProgram(programID);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nw/Types.h>
+#include <nw/gfx/WindowOptions.h>
 
 #include <string>
 
@@ -8,12 +9,11 @@ struct GLFWwindow;
 
 namespace nw { namespace gfx {
 
-
 class Window
 {
 public:
 	Window();
-	Window(uint width, uint height, const std::string& title);
+	Window(WindowOptions windowOptions);
 	~Window();
 
 	void Show();
@@ -29,9 +29,7 @@ private:
 	static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 	int* m_GlfwHandle;
-	uint m_Width, m_Height;
-	std::string m_Title;
-	bool m_Vsync;
+	WindowOptions m_Options;
 };
 
 } 

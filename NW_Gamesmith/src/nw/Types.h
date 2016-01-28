@@ -2,12 +2,14 @@
 
 typedef unsigned int uint;
 typedef unsigned short ushort;
+typedef unsigned char byte;
 
 namespace nw {
 
 	namespace gfx {
 
 		struct VertexData;
+		struct WindowOptions;
 
 		class Window;
 		class Renderable2D;

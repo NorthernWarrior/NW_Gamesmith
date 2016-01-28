@@ -6,7 +6,7 @@
 using namespace nw;
 using namespace gfx;
 
-IndexBuffer::IndexBuffer(const uint* indices, uint count)
+IndexBuffer::IndexBuffer(const ushort* indices, uint count)
 {
 	glGenBuffers(1, &m_ID);
 	if (m_ID == 0)
@@ -16,7 +16,7 @@ IndexBuffer::IndexBuffer(const uint* indices, uint count)
 		return;
 	}
 	Bind();
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(ushort), indices, GL_STATIC_DRAW);
 	Unbind();
 }
 

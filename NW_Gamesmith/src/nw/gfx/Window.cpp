@@ -14,20 +14,14 @@ using namespace gfx;
 
 Window::Window() :
 	m_GlfwHandle(nullptr)
-	, m_Width(900)
-	, m_Height(450)
-	, m_Title("Northern Warrior Gamesmith")
-	, m_Vsync(false)
 {
+
 }
 
-Window::Window(uint width, uint height, const std::string& title) :
+Window::Window(WindowOptions windowOptions) :
 	m_GlfwHandle(nullptr)
-	, m_Width(width)
-	, m_Height(height)
-	, m_Title(title)
-	, m_Vsync(true)
 {
+	m_Options = windowOptions;
 }
 
 Window::~Window()
@@ -49,7 +43,9 @@ void Window::Show()
 		return;
 	}
 
-	m_GlfwHandle = (int*)glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
+	glfwWindowHint(GLFW_SAMPLES, m_Options.Samples);
+	glfwWindowHint(GLFW_RESIZABLE, m_Options.CanResize);
+	m_GlfwHandle = (int*)glfwCreateWindow(m_Options.Width, m_Options.Height, m_Options.Title.c_str(), nullptr, nullptr);
 	if (!m_GlfwHandle)
 	{
 		// TODO: Log!
@@ -69,9 +65,14 @@ void Window::Show()
 	glfwSetWindowSizeCallback((GLFWwindow*)m_GlfwHandle, WindowResize);
 	glfwSetKeyCallback((GLFWwindow*)m_GlfwHandle, KeyCallback);
 	glfwSetMouseButtonCallback((GLFWwindow*)m_GlfwHandle, MouseButtonCallback);
-	glfwSwapInterval(m_Vsync);
+	glfwSwapInterval(m_Options.Vsync);
 
 	glClearColor(30 / 255.f, 30 / 255.f, 30 / 255.f, 1.0f);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// TODO: Log!
 #ifdef _DEBUG
@@ -117,8 +118,8 @@ void Window::WindowResize(GLFWwindow* window, int width, int height)
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
 	if (win == nullptr)
 		return;
-	win->m_Width = (uint)width;
-	win->m_Height = (uint)height;
+	win->m_Options.Width = (uint)width;
+	win->m_Options.Height = (uint)height;
 }
 void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {

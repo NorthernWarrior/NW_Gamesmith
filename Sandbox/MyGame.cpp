@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <time.h>
 
 using namespace nw;
 using namespace gfx;
@@ -9,41 +10,78 @@ using namespace input;
 using namespace math;
 
 unsigned int colors[] = {
-	0xFF000000,
+	//0xFF000044,
+	//0xFF555555,
+	//0xFF444444,
+	//0xFF333333,
+	//
+	//0xFF6699CC,
+	//0xFF003366,
+	//0xFFC0C0C0,
 	0xFFFFFFFF,
-	0xFFFFFF00,
-	0xFF00FF00,
-	0xFFFF0000,
-	0xFF0000FF,
-
-	0xFF999999,
-	0xFF999900,
-	0xFF990099,
-	0xFF000099,
 };
 
 class MyGame : public Gamesmith
 {
 public:
+	MyGame()
+	{
+#ifdef _DEBUG
+		m_WindowOptions.Vsync = false;
+		m_WindowOptions.Samples = 4;
+#else
+		m_WindowOptions.Samples = 8;
+#endif
+		m_WindowOptions.CanResize = true;
+	}
+
 	~MyGame()
 	{
 		delete m_Renderer;
-		//delete m_Sprite;
+		for (auto sprite : m_Sprites)
+			delete sprite;
 		delete m_Shader;
 	}
 
 private:
 	void OnInitialise() override
 	{
-		m_Shader = Shader::Create(Shader::Diffuse);
+		srand(time(nullptr));
+
+		m_Shader = Shader::Create(Shader::Texture);
 
 		m_Renderer = new SpriteRenderer();
-		//m_Sprite = new Sprite(Vector2(450, 300), 0xffffff23, Vector2(200, 200));
 
+		byte pixels[] = {
+			255, 0, 0,
+			0, 255, 0,
 
+			0, 0, 255,
+			255, 255, 0,
 
-		int X = 200, Y = 100;
-		float dimension = 4;
+			255, 0, 0,
+			0, 255, 0,
+
+			255, 0, 0,
+			0, 255, 0,
+
+			0, 0, 255,
+			255, 255, 0,
+
+			0, 0, 255,
+			255, 255, 0,
+
+			0, 0, 255,
+			255, 255, 0,
+
+			255, 0, 0,
+			0, 255, 0,
+		};
+
+		m_Texture.Create(4, 4, pixels, 24);
+
+		int X = 10, Y = 10;
+		float dimension = 32;
 		pr_matrix = Matrix4::Orthographic(0, 900, 450, 0, -1, 1);
 
 		for (int x = 0; x < X; ++x)
@@ -51,8 +89,6 @@ private:
 			for (int y = 0; y < Y; ++y)
 			{
 				int i = (rand() % (sizeof(colors) / (sizeof(unsigned int))));
-				if (y == Y - 1 || x == X - 1)
-					i = 0;
 				m_Sprites.push_back(new Sprite(Vector2(40 + x*dimension + dimension, 25 + y*dimension + dimension), colors[i], Vector2(dimension, dimension)));
 			}
 		}
@@ -74,6 +110,7 @@ private:
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4("pr_matrix", pr_matrix);
 
+		m_Texture.Bind();
 		m_Renderer->Bind();
 		for (auto sprite : m_Sprites)
 		{
@@ -86,6 +123,7 @@ private:
 		}
 		m_Renderer->Unbind();
 		m_Renderer->Display();
+		m_Texture.Unbind();
 	}
 
 private:
@@ -93,6 +131,7 @@ private:
 	Shader* m_Shader;
 	std::vector<Sprite*> m_Sprites;
 	Matrix4 pr_matrix;
+	Texture2D m_Texture;
 };
 
 

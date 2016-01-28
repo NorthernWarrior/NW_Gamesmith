@@ -11,6 +11,7 @@ using namespace math;
 
 SpriteRenderer::SpriteRenderer() :
 	m_IndexCount(0)
+	, m_SpriteCount(0)
 {
 	glGenVertexArrays(1, &m_VAO);
 	if (m_VAO == 0)
@@ -35,8 +36,7 @@ SpriteRenderer::SpriteRenderer() :
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//ushort* indices = new ushort[RENDERER_INDICES_SIZE];
-	uint* indices = new uint[RENDERER_INDICES_SIZE];
+	ushort* indices = new ushort[RENDERER_INDICES_SIZE];
 	int offset = 0;
 	for (int i = 0; i < RENDERER_INDICES_SIZE; i += 6)
 	{
@@ -76,7 +76,7 @@ void SpriteRenderer::Submit(const Renderable2D* renderable)
 	if (m_Buffer == nullptr || renderable == nullptr)
 		return;
 
-	if (m_IndexCount >= RENDERER_INDICES_SIZE)
+	if (m_SpriteCount >= RENDERER_MAX_SPRITES)
 	{
 		Unbind();
 		Display();
@@ -89,25 +89,30 @@ void SpriteRenderer::Submit(const Renderable2D* renderable)
 
 	// Vertex - Top Left
 	m_Buffer->color = color;
+	m_Buffer->uv = Vector2(0, 1);
 	m_Buffer->vertex = Vector3(pos.x - (size.x / 2.f), pos.y - (size.y / 2.f), 0);
 	++m_Buffer;
 
 	// Vertex - Top Right
 	m_Buffer->color = color;
+	m_Buffer->uv = Vector2(1, 1);
 	m_Buffer->vertex = Vector3(pos.x + (size.x / 2.f), pos.y - (size.y / 2.f), 0);
 	++m_Buffer;
 
 	// Vertex - Bottom Right
 	m_Buffer->color = color;
+	m_Buffer->uv = Vector2(1, 0);
 	m_Buffer->vertex = Vector3(pos.x + (size.x / 2.f), pos.y + (size.y / 2.f), 0);
 	++m_Buffer;
 
 	// Vertex - Bottom Left
 	m_Buffer->color = color;
+	m_Buffer->uv = Vector2(0, 0);
 	m_Buffer->vertex = Vector3(pos.x - (size.x / 2.f), pos.y + (size.y / 2.f), 0);
 	++m_Buffer;
 
 	m_IndexCount += 6;
+	++m_SpriteCount;
 }
 
 void SpriteRenderer::Unbind()
@@ -125,11 +130,12 @@ void SpriteRenderer::Display()
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	m_IBO->Bind();
 
-	glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_SHORT, nullptr);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	m_IBO->Unbind();
 	glBindVertexArray(0);
 
 	m_IndexCount = 0;
+	m_SpriteCount = 0;
 }

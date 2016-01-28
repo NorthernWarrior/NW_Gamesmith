@@ -61,7 +61,7 @@ void Gamesmith::Init()
 {
 	m_Result = EXIT_SUCCESS;
 
-	m_Window = new Window;
+	m_Window = new Window(m_WindowOptions);
 	m_Window->Show();
 
 	OnInitialise();

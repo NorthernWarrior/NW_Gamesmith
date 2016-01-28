@@ -173,6 +173,7 @@
     <ClCompile Include="src\nw\gfx\rendering2D\SpriteRenderer.cpp" />
     <ClCompile Include="src\nw\gfx\rendering2D\Sprite.cpp" />
     <ClCompile Include="src\nw\gfx\shader\Shader.cpp" />
+    <ClCompile Include="src\nw\gfx\Texture2D.cpp" />
     <ClCompile Include="src\nw\gfx\Window.cpp" />
     <ClCompile Include="src\nw\input\InputManager.cpp" />
     <ClCompile Include="src\nw\input\Keyboard.cpp" />
@@ -189,7 +190,9 @@
     <ClInclude Include="src\nw\gfx\rendering2D\Sprite.h" />
     <ClInclude Include="src\nw\gfx\shader\DefaultShader.h" />
     <ClInclude Include="src\nw\gfx\shader\Shader.h" />
+    <ClInclude Include="src\nw\gfx\Texture2D.h" />
     <ClInclude Include="src\nw\gfx\Window.h" />
+    <ClInclude Include="src\nw\gfx\WindowOptions.h" />
     <ClInclude Include="src\nw\input\InputManager.h" />
     <ClInclude Include="src\nw\input\Keyboard.h" />
     <ClInclude Include="src\nw\input\Mouse.h" />

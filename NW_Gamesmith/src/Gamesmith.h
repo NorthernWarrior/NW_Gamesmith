@@ -7,6 +7,7 @@
 #include <nw/gfx/rendering2D/SpriteRenderer.h>
 #include <nw/gfx/rendering2D/Sprite.h>
 #include <nw/gfx/shader/Shader.h>
+#include <nw/gfx/Texture2D.h>
 
 #include <nw/input/InputManager.h>
 #include <nw/input/Keyboard.h>

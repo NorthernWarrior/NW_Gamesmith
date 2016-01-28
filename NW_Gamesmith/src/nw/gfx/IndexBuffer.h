@@ -8,7 +8,7 @@ namespace nw { namespace gfx {
 class NW_API IndexBuffer 
 {
 public:
-	IndexBuffer(const uint* indices, uint count);
+	IndexBuffer(const ushort* indices, uint count);
 	~IndexBuffer();
 
 	void Bind() const;

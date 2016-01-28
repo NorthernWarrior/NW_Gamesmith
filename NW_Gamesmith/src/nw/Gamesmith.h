@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nw/CommonMacros.h>
+#include <nw/gfx/WindowOptions.h>
 
 namespace nw {
 
@@ -24,6 +25,9 @@ private:
 
 	void Init();
 	void Update();
+
+protected:
+	gfx::WindowOptions m_WindowOptions;
 
 private:
 	gfx::Window* m_Window;
