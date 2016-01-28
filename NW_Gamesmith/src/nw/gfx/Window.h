@@ -12,8 +12,7 @@ namespace nw { namespace gfx {
 class Window
 {
 public:
-	Window();
-	Window(WindowOptions windowOptions);
+	Window(WindowOptions& windowOptions);
 	~Window();
 
 	void Show();
@@ -24,12 +23,14 @@ public:
 	bool IsClosed();
 
 private:
-	static void WindowResize(GLFWwindow* window, int width, int height);
+	static void WindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 	int* m_GlfwHandle;
-	WindowOptions m_Options;
+	WindowOptions& m_Options;
+
+	float m_InitialAspectRatio;
 };
 
 } 

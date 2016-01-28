@@ -12,16 +12,11 @@ using namespace nw;
 using namespace gfx;
 
 
-Window::Window() :
+Window::Window(WindowOptions& windowOptions) :
 	m_GlfwHandle(nullptr)
+	, m_Options(windowOptions)
 {
 
-}
-
-Window::Window(WindowOptions windowOptions) :
-	m_GlfwHandle(nullptr)
-{
-	m_Options = windowOptions;
 }
 
 Window::~Window()
@@ -43,10 +38,10 @@ void Window::Show()
 		return;
 	}
 
+	m_InitialAspectRatio = (float)m_Options.Height / (float)m_Options.Width;
 	glfwWindowHint(GLFW_SAMPLES, m_Options.Samples);
 	glfwWindowHint(GLFW_RESIZABLE, m_Options.CanResize);
-	m_GlfwHandle = (int*)glfwCreateWindow(m_Options.Width, m_Options.Height, m_Options.Title.c_str(), nullptr, nullptr);
-	if (!m_GlfwHandle)
+	m_GlfwHandle = (int*)glfwCreateWindow(m_Options.Width, m_Options.Height, m_Options.Title.c_str(), nullptr, nullptr);	if (!m_GlfwHandle)
 	{
 		// TODO: Log!
 		std::cout << "[Window] Failed to create Window!" << std::endl;
@@ -62,7 +57,7 @@ void Window::Show()
 		return;
 	}
 	glfwSetWindowUserPointer((GLFWwindow*)m_GlfwHandle, this);
-	glfwSetWindowSizeCallback((GLFWwindow*)m_GlfwHandle, WindowResize);
+	glfwSetWindowSizeCallback((GLFWwindow*)m_GlfwHandle, WindowResizeCallback);
 	glfwSetKeyCallback((GLFWwindow*)m_GlfwHandle, KeyCallback);
 	glfwSetMouseButtonCallback((GLFWwindow*)m_GlfwHandle, MouseButtonCallback);
 	glfwSwapInterval(m_Options.Vsync);
@@ -112,14 +107,34 @@ bool Window::IsClosed()
 
 
 
-void Window::WindowResize(GLFWwindow* window, int width, int height)
+void Window::WindowResizeCallback(GLFWwindow* window, int width, int height)
 {
-	glViewport(0, 0, width, height);
+	int px_width, px_height;
+	glfwGetFramebufferSize(window, &px_width, &px_height);
+
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
+
+	if (win->m_Options.KeepInitialAspectRatio)
+	{
+		int actualWidth = px_width;
+		int actualHeight = px_height;
+		float initAR = win->m_InitialAspectRatio;
+		float currAR = static_cast<float>(px_height) / static_cast<float>(px_width);
+		if (currAR < initAR)
+			px_width = px_height / initAR;
+		else
+			px_height = px_width * initAR;
+		glViewport((actualWidth - px_width) / 2, (actualHeight - px_height) / 2, px_width, px_height);
+	}
+	else
+		glViewport(0, 0, px_width, px_height);
+
 	if (win == nullptr)
 		return;
-	win->m_Options.Width = (uint)width;
-	win->m_Options.Height = (uint)height;
+	win->m_Options.Width = static_cast<uint>(px_width);
+	win->m_Options.Height = static_cast<uint>(px_height);
+	win->m_Options.ScreenWidth = width;
+	win->m_Options.ScreenHeight = height;
 }
 void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {

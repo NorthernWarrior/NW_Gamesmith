@@ -9,18 +9,6 @@ using namespace gfx;
 using namespace input;
 using namespace math;
 
-unsigned int colors[] = {
-	//0xFF000044,
-	//0xFF555555,
-	//0xFF444444,
-	//0xFF333333,
-	//
-	//0xFF6699CC,
-	//0xFF003366,
-	//0xFFC0C0C0,
-	0xFFFFFFFF,
-};
-
 class MyGame : public Gamesmith
 {
 public:
@@ -88,8 +76,7 @@ private:
 		{
 			for (int y = 0; y < Y; ++y)
 			{
-				int i = (rand() % (sizeof(colors) / (sizeof(unsigned int))));
-				m_Sprites.push_back(new Sprite(Vector2(40 + x*dimension + dimension, 25 + y*dimension + dimension), colors[i], Vector2(dimension, dimension)));
+				m_Sprites.push_back(new Sprite(Vector2(40 + x*dimension + dimension, 25 + y*dimension + dimension), 0xFFFFFFFF, Vector2(dimension, dimension)));
 			}
 		}
 		std::cout << "Created: " << m_Sprites.size() << std::endl;
@@ -101,12 +88,8 @@ private:
 			Quit();
 	}
 
-	bool randomColors = false;
 	void OnRender() override
 	{
-		if (Keyboard::GetKeyUp(Keyboard::F1))
-			randomColors = !randomColors;
-
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4("pr_matrix", pr_matrix);
 
@@ -114,11 +97,6 @@ private:
 		m_Renderer->Bind();
 		for (auto sprite : m_Sprites)
 		{
-			if (randomColors)
-			{
-				int i = (rand() % (sizeof(colors) / (sizeof(unsigned int))));
-				sprite->SetColor(colors[i]);
-			}
 			m_Renderer->Submit(sprite);
 		}
 		m_Renderer->Unbind();
