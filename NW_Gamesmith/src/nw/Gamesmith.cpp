@@ -20,10 +20,11 @@ int Gamesmith::Start()
 
 	float bla = 1.f;
 	int f = 0;
-	float dt, begin = glfwGetTime();
+	double dt, begin = glfwGetTime();
 	while (!m_Window->IsClosed())
 	{
 		dt = glfwGetTime() - begin;
+		Time::m_DeltaTime = static_cast<float>(dt);
 		begin = glfwGetTime();
 		bla += dt;
 
@@ -73,3 +74,9 @@ void Gamesmith::Update()
 {
 	OnUpdate();
 }
+
+
+
+// Variable definition for Time
+float Time::m_DeltaTime = 0.0f;
+float Time::m_TimeScale = 1.0f;
