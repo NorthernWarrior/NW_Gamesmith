@@ -26,7 +26,7 @@ namespace nw { namespace input {
 			ButtonMiddle = Button3
 		};
 
-		static void SetPosition(math::Vector2 pos);
+		static void SetPosition(const math::Vector2& pos);
 		static math::Vector2 GetPosition();
 
 		static bool GetButton(int mouseButton);

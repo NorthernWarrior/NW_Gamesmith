@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NW_Gamesmith", "NW_Gamesmit
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{B0EDF698-F7C0-4461-9477-5A23EC7BFFD1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{D72DA137-7B80-448A-9389-44AF5DF347FA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "Dependencies\FreeImage\Source\FreeImageLib\FreeImageLib.2013.vcxproj", "{9E219DF2-315D-478E-8A07-8960C377CE1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,8 +35,19 @@ Global
 		{B0EDF698-F7C0-4461-9477-5A23EC7BFFD1}.Release|x64.Build.0 = Release|x64
 		{B0EDF698-F7C0-4461-9477-5A23EC7BFFD1}.Release|x86.ActiveCfg = Release|Win32
 		{B0EDF698-F7C0-4461-9477-5A23EC7BFFD1}.Release|x86.Build.0 = Release|Win32
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|x64.ActiveCfg = Debug|x64
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|x64.Build.0 = Debug|x64
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|x86.Build.0 = Debug|Win32
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Release|x64.ActiveCfg = Release|x64
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Release|x64.Build.0 = Release|x64
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Release|x86.ActiveCfg = Release|Win32
+		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E219DF2-315D-478E-8A07-8960C377CE1E} = {D72DA137-7B80-448A-9389-44AF5DF347FA}
 	EndGlobalSection
 EndGlobal

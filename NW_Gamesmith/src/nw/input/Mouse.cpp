@@ -8,7 +8,7 @@ namespace nw { namespace input {
 
 Mouse::MouseStateMap Mouse::m_MouseStates;
 
-void Mouse::SetPosition(math::Vector2 pos)
+void Mouse::SetPosition(const math::Vector2& pos)
 {
 	glfwSetCursorPos(glfwGetCurrentContext(), pos.x, pos.y);
 }

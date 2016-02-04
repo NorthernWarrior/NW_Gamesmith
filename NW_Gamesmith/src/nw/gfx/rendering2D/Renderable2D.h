@@ -12,6 +12,7 @@ struct NW_API VertexData
 	math::Vector3 vertex;
 	math::Vector2 uv;
 	uint color;
+	float texID;
 };
 
 class NW_API Renderable2D
@@ -28,14 +29,9 @@ protected:
 	math::Vector2 m_Size;
 
 public:
-	virtual void OnSubmit(SpriteRenderer* renderer) const
-	{
-		renderer->Submit(this);
-	}
-
 	void SetColor(uint color);
-	void SetPosition(math::Vector2 pos);
-	void SetSize(math::Vector2 size);
+	void SetPosition(const math::Vector2& pos);
+	void SetSize(const math::Vector2& size);
 
 	inline uint GetColor() const { return m_Color; }
 	inline const math::Vector2& GetPosition() const { return m_Pos; }

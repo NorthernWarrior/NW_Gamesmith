@@ -22,6 +22,7 @@ public:
 	void Bind();
 
 	void SetUniformI(const std::string& name, int i) const;
+	void SetUniformI(const std::string& name, int* i, int cnt) const;
 	void SetUniformF(const std::string& name, float f) const;
 	void SetUniformVec2(const std::string& name, const math::Vector2& vec) const;
 	void SetUniformVec3(const std::string& name, const math::Vector3& vec) const;

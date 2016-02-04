@@ -3,3 +3,11 @@ FIRST PROTOTYPE
 *.sdf
 /bin
 *.user
+*.obj
+/Dependencies/FreeImage/Source/FreeImageLib/lib/Release_Win32/Intermediates/*.log
+/Dependencies/FreeImage/Source/FreeImageLib/lib/Release_Win32/Intermediates/FreeImageLib.tlog/*.tlog
+*.log
+*.idb
+*.pdb
+*.lastbuildstate
+*.tlog

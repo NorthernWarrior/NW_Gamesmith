@@ -1,13 +1,15 @@
 #include "Shader.h"
 #include "DefaultShader.h"
 
+#include <nw/Log.h>
 #include <nw/math/Vector2.h>
 #include <nw/math/Vector3.h>
 #include <nw/math/Vector4.h>
 #include <nw/math/Matrix4.h>
 
-#include <iostream>
 #include <vector>
+
+#include <iostream>
 #include <GL/glew.h>
 
 using namespace nw;
@@ -27,6 +29,10 @@ void Shader::Bind()
 void Shader::SetUniformI(const std::string& name, int i) const
 {
 	glUniform1i(GetUniformLocationID(name), i);
+}
+void Shader::SetUniformI(const std::string& name, int* i, int cnt) const
+{
+	glUniform1iv(GetUniformLocationID(name), cnt, i);
 }
 
 void Shader::SetUniformF(const std::string& name, float f) const
@@ -81,7 +87,7 @@ Shader* Shader::Create(Types type)
 	uint vertID = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertID, 1, &vert, nullptr);
 	glCompileShader(vertID);
-	if (!CheckShader(vertID, name + ": Vertex Shader")) // TODO: Name based on type
+	if (!CheckShader(vertID, name + ": Vertex Shader"))
 	{
 		glDeleteProgram(programID);
 		return nullptr;
@@ -90,7 +96,7 @@ Shader* Shader::Create(Types type)
 	uint fragID = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragID, 1, &frag, nullptr);
 	glCompileShader(fragID);
-	if (!CheckShader(fragID, name + ": Fragment Shader")) // TODO: Name based on type
+	if (!CheckShader(fragID, name + ": Fragment Shader"))
 	{
 		glDeleteShader(vertID);
 		glDeleteProgram(programID);
@@ -126,9 +132,7 @@ bool Shader::CheckShader(uint shaderID, const std::string& name)
 	glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &length);
 	std::vector<char> error(length + 1);
 	glGetShaderInfoLog(shaderID, length, nullptr, &error[0]);
-	// TODO: Log!
-	std::cout << "[Shader] Failed to compile \"" << name << "\":" << std::endl;
-	std::cout << &error[0] << std::endl;
+	LOG_ERROR("[Shader] Failed to compile \"" + name + "\":", &error[0]);
 	glDeleteShader(shaderID);
 
 	return false;

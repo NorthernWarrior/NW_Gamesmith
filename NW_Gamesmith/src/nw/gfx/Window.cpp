@@ -1,12 +1,13 @@
 #include "Window.h"
 
+#include <nw/Log.h>
 #include <nw/input/Mouse.h>
 #include <nw/input/Keyboard.h>
 
-#include <iostream>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#include <iostream>
 
 using namespace nw;
 using namespace gfx;
@@ -33,8 +34,7 @@ void Window::Show()
 {
 	if (!glfwInit())
 	{
-		// TODO: Log!
-		std::cout << "[Window] Failed to initialize GLFW!" << std::endl;
+		LOG_ERROR("[Window] Failed to initialize GLFW!")
 		return;
 	}
 
@@ -43,8 +43,7 @@ void Window::Show()
 	glfwWindowHint(GLFW_RESIZABLE, m_Options.CanResize);
 	m_GlfwHandle = (int*)glfwCreateWindow(m_Options.Width, m_Options.Height, m_Options.Title.c_str(), nullptr, nullptr);	if (!m_GlfwHandle)
 	{
-		// TODO: Log!
-		std::cout << "[Window] Failed to create Window!" << std::endl;
+		LOG_ERROR("[Window] Failed to create Window!")
 		return;
 	}
 	glfwMakeContextCurrent((GLFWwindow*)m_GlfwHandle);
@@ -52,30 +51,28 @@ void Window::Show()
 	{
 		glfwDestroyWindow((GLFWwindow*)m_GlfwHandle);
 		m_GlfwHandle = nullptr;
-		// TODO: Log!
-		std::cout << "[Window] Failed to initialize GLEW!";
+		LOG_ERROR("[Window] Failed to initialize GLEW!")
 		return;
 	}
 	glfwSetWindowUserPointer((GLFWwindow*)m_GlfwHandle, this);
 	glfwSetWindowSizeCallback((GLFWwindow*)m_GlfwHandle, WindowResizeCallback);
 	glfwSetKeyCallback((GLFWwindow*)m_GlfwHandle, KeyCallback);
 	glfwSetMouseButtonCallback((GLFWwindow*)m_GlfwHandle, MouseButtonCallback);
-	glfwSwapInterval(m_Options.Vsync);
+	glfwSwapInterval(m_Options.VSync);
 
-	glClearColor(30 / 255.f, 30 / 255.f, 30 / 255.f, 1.0f);
+	glClearColor(0, 0, 0, 1.0f);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// TODO: Log!
 #ifdef _DEBUG
-	std::cout << "[Window] Running in Debug Mode!" << std::endl;
+	LOG("[Window] Running in Debug Mode!")
 #endif
-	std::cout << "[Window] OpenGL Vendor:   " << glGetString(GL_VENDOR) << std::endl;
-	std::cout << "[Window] OpenGL Version:  " << glGetString(GL_VERSION) << std::endl;
-	std::cout << "[Window] OpenGL Renderer: " << glGetString(GL_RENDERER) << std::endl;
+	LOG("[Window] OpenGL Vendor:   ", glGetString(GL_VENDOR))
+	LOG("[Window] OpenGL Version:  ", glGetString(GL_VERSION))
+	LOG("[Window] OpenGL Renderer: ", glGetString(GL_RENDERER))
 }
 
 void Window::Clear()
@@ -114,6 +111,8 @@ void Window::WindowResizeCallback(GLFWwindow* window, int width, int height)
 
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
 
+	// TODO: This should go inside Camera::SetActive...
+
 	if (win->m_Options.KeepInitialAspectRatio)
 	{
 		int actualWidth = px_width;
@@ -121,9 +120,9 @@ void Window::WindowResizeCallback(GLFWwindow* window, int width, int height)
 		float initAR = win->m_InitialAspectRatio;
 		float currAR = static_cast<float>(px_height) / static_cast<float>(px_width);
 		if (currAR < initAR)
-			px_width = px_height / initAR;
+			px_width = static_cast<int>(px_height / initAR);
 		else
-			px_height = px_width * initAR;
+			px_height = static_cast<int>(px_width * initAR);
 		glViewport((actualWidth - px_width) / 2, (actualHeight - px_height) / 2, px_width, px_height);
 	}
 	else

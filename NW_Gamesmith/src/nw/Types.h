@@ -13,7 +13,10 @@ namespace nw {
 
 		class Window;
 		class Renderable2D;
-
+		class Sprite;
+		class Shader;
+		class Texture2D;
+		class Transform2D;
 	}
 
 	namespace math 	{

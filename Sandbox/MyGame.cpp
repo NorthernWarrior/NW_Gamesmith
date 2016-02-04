@@ -8,6 +8,7 @@ using namespace nw;
 using namespace gfx;
 using namespace input;
 using namespace math;
+using namespace rm;
 
 class MyGame : public Gamesmith
 {
@@ -15,101 +16,103 @@ public:
 	MyGame()
 	{
 #ifdef _DEBUG
-		m_WindowOptions.Vsync = false;
+		m_WindowOptions.VSync = false;
 		m_WindowOptions.Samples = 4;
 #else
 		m_WindowOptions.Samples = 8;
 #endif
 		m_WindowOptions.CanResize = true;
-	}
-
-	~MyGame()
-	{
-		delete m_Renderer;
-		for (auto sprite : m_Sprites)
-			delete sprite;
-		delete m_Shader;
+		m_WindowOptions.SetSize(Vector2(1422, 800));
 	}
 
 private:
+	Vector2 center;
+
 	void OnInitialise() override
 	{
-		srand(time(nullptr));
+		srand(static_cast<int>(time(nullptr)));
 
-		m_Shader = Shader::Create(Shader::Texture);
+		m_Renderer = new SpriteRenderer(Shader::Create(Shader::Texture));
 
-		m_Renderer = new SpriteRenderer();
+		ResourceManager::LoadFromFile<Texture2D>("C:/Users/Tobias/Documents/Visual Studio 2015/Projects/C++/NW_Gamesmith/Resources/pig.png", "pig");
+		ResourceManager::LoadFromFile<Texture2D>("C:/Users/Tobias/Documents/Visual Studio 2015/Projects/C++/NW_Gamesmith/Resources/logo.png", "logo");
+		ResourceManager::LoadFromFile<Texture2D>("C:/Users/Tobias/Documents/Visual Studio 2015/Projects/C++/NW_Gamesmith/Resources/tile.png", "tile");
 
-		byte pixels[] = {
-			255, 0, 0,
-			0, 255, 0,
+		m_Back = new Sprite(Vector2(static_cast<float>(m_WindowOptions.Width) / 2, static_cast<float>(m_WindowOptions.Height) / 2), 0xFF111111, Vector2(static_cast<float>(m_WindowOptions.Width * 2), static_cast<float>(m_WindowOptions.Height * 2)));
 
-			0, 0, 255,
-			255, 255, 0,
+		center = Vector2(static_cast<float>(m_WindowOptions.Width / 6), static_cast<float>(m_WindowOptions.Height / 2));
+		m_Pig = new Sprite(center, ResourceManager::Get<Texture2D>("pig"));
+		m_Pig->SetSize(Vector2(256, 256));
 
-			255, 0, 0,
-			0, 255, 0,
+		m_Logo = new Sprite(Vector2(64, 64), ResourceManager::Get<Texture2D>("logo"));
+		m_Logo->SetSize(Vector2(128, 128));
 
-			255, 0, 0,
-			0, 255, 0,
+		NW_FOR_2D(45, 25)
+			m_Tilemap.push_back(new Sprite(Vector2(static_cast<float>(x * 32 + 16), static_cast<float>(y * 32 + 16)), ResourceManager::Get<Texture2D>("tile")));
 
-			0, 0, 255,
-			255, 255, 0,
-
-			0, 0, 255,
-			255, 255, 0,
-
-			0, 0, 255,
-			255, 255, 0,
-
-			255, 0, 0,
-			0, 255, 0,
-		};
-
-		m_Texture.Create(4, 4, pixels, 24);
-
-		int X = 10, Y = 10;
-		float dimension = 32;
-		pr_matrix = Matrix4::Orthographic(0, 900, 450, 0, -1, 1);
-
-		for (int x = 0; x < X; ++x)
-		{
-			for (int y = 0; y < Y; ++y)
-			{
-				m_Sprites.push_back(new Sprite(Vector2(40 + x*dimension + dimension, 25 + y*dimension + dimension), 0xFFFFFFFF, Vector2(dimension, dimension)));
-			}
-		}
-		std::cout << "Created: " << m_Sprites.size() << std::endl;
+		//m_Cam = new Camera(0, static_cast<float>(m_WindowOptions.Width), 0, static_cast<float>(m_WindowOptions.Height));
+		float width = static_cast<float>(m_WindowOptions.Width / 3);
+		m_Cam = new Camera(0, width-2, 0, static_cast<float>(m_WindowOptions.Height));
+		m_Cam2 = new Camera(width + 2, width - 2, 0, static_cast<float>(m_WindowOptions.Height));
+		m_Cam3 = new Camera(width + 2 + width + 2, width - 2, 0, static_cast<float>(m_WindowOptions.Height));
 	}
 
 	void OnUpdate() override
 	{
 		if (Keyboard::GetKeyUp(Keyboard::Escape))
 			Quit();
+
+		float speed = 400;
+		if (Keyboard::GetKey(Keyboard::W))
+			m_Pig->SetPosition(m_Pig->GetPosition() + (Vector2::Down() * speed * Time::GetDeltaTime()));
+		else if (Keyboard::GetKey(Keyboard::S))
+			m_Pig->SetPosition(m_Pig->GetPosition() + (Vector2::Up() * speed * Time::GetDeltaTime()));
+		if (Keyboard::GetKey(Keyboard::A))
+			m_Pig->SetPosition(m_Pig->GetPosition() + (Vector2::Left() * speed * Time::GetDeltaTime()));
+		else if (Keyboard::GetKey(Keyboard::D))
+			m_Pig->SetPosition(m_Pig->GetPosition() + (Vector2::Right() * speed * Time::GetDeltaTime()));
+
+		if (Keyboard::GetKey(Keyboard::Up))
+			m_Cam2->GetTransform()->Translate((Vector2::Down() * speed * Time::GetDeltaTime()));
+		else if (Keyboard::GetKey(Keyboard::Down))
+			m_Cam2->GetTransform()->Translate((Vector2::Up() * speed * Time::GetDeltaTime()));
+		if (Keyboard::GetKey(Keyboard::Left))
+			m_Cam2->GetTransform()->Translate((Vector2::Left() * speed * Time::GetDeltaTime()));
+		else if (Keyboard::GetKey(Keyboard::Right))
+			m_Cam2->GetTransform()->Translate((Vector2::Right() * speed * Time::GetDeltaTime()));
+
+		m_Cam->GetTransform()->SetPosition(m_Pig->GetPosition() - center);
 	}
 
 	void OnRender() override
 	{
-		m_Shader->Bind();
-		m_Shader->SetUniformMat4("pr_matrix", pr_matrix);
-
-		m_Texture.Bind();
 		m_Renderer->Bind();
-		for (auto sprite : m_Sprites)
-		{
+		m_Renderer->Submit(m_Back);
+		for (auto sprite : m_Tilemap)
 			m_Renderer->Submit(sprite);
-		}
+		m_Renderer->Submit(m_Pig);
+		m_Renderer->Submit(m_Logo);
 		m_Renderer->Unbind();
+
+		m_Cam->SetActive();
+		m_Renderer->Display(true);
+
+		m_Cam2->SetActive();
+		m_Renderer->Display(true);
+
+		m_Cam3->SetActive();
 		m_Renderer->Display();
-		m_Texture.Unbind();
 	}
 
 private:
 	SpriteRenderer* m_Renderer;
-	Shader* m_Shader;
-	std::vector<Sprite*> m_Sprites;
-	Matrix4 pr_matrix;
-	Texture2D m_Texture;
+	Sprite* m_Back;
+	Sprite* m_Pig;
+	std::vector<Sprite*> m_Tilemap;
+	Sprite* m_Logo;
+	Camera* m_Cam;
+	Camera* m_Cam2;
+	Camera* m_Cam3;
 };
 
 

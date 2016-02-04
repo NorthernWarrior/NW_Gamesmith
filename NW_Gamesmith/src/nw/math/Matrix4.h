@@ -1,6 +1,9 @@
 #pragma once
 
-#include "Vector4.h"
+#include <nw/math/Vector3.h>
+#include <nw/math/Vector4.h>
+
+#include <string>
 
 namespace nw { namespace math {
 
@@ -31,6 +34,8 @@ struct Matrix4
 		return Matrix4(1.0f);
 	}
 
+#pragma region Setups
+
 	static Matrix4 Orthographic(float left, float right, float bottom, float top, float near, float far)
 	{
 		Matrix4 result(1.0f);
@@ -47,6 +52,41 @@ struct Matrix4
 
 		return result;
 	}
+
+#pragma endregion
+
+#pragma region Functions
+
+	static Matrix4 Translate(const Matrix4& original, const Vector3& translation)
+	{
+		Matrix4 result = original;
+
+		result.elements[0 + 3 * 4] = translation.x;
+		result.elements[1 + 3 * 4] = translation.y;
+		result.elements[2 + 3 * 4] = translation.z;
+
+		return result;
+	}
+	static Matrix4 Translate(const Vector3& translation)
+	{
+		return Translate(Matrix4(1.0f), translation);
+	}
+
+#pragma endregion
+
+#pragma region Stream
+
+	friend std::ostream& operator<<(std::ostream& stream, const Matrix4& mat)
+	{
+		stream << "{ " << mat.columns[0] << std::endl;
+		stream << mat.columns[1] << std::endl;
+		stream << mat.columns[2] << std::endl;
+		stream << mat.columns[1] << " }";
+		return stream;
+	}
+
+#pragma endregion
+
 };
 
 } }

@@ -18,7 +18,7 @@ int Gamesmith::Start()
 {
 	Init();
 
-	float bla = 1.f;
+	double bla = 1.f;
 	int f = 0;
 	double dt, begin = glfwGetTime();
 	while (!m_Window->IsClosed())
